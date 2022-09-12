@@ -7,16 +7,9 @@ import com.vaadin.flow.router.Route;
 public class PivotView extends Div {
 
     public PivotView() {
-        String json = "["
-                + "{color: \"blue\", shape: \"circle\"},"
-                + "{color: \"red\", shape: \"triangle\"}"
-                + "],"
-                + "{"
-                + "rows: [\"color\"],"
-                + "cols: [\"shape\"]"
-                + "}";
-
-        PivotTable table = new PivotTable(json);
+        String dataJson = "[{\"color\": \"blue\", \"shape\": \"circle\"}, {\"color\": \"red\", \"shape\": \"triangle\"}]";
+        String optionsJson = "{\"rows\": [\"color\"], \"cols\": [\"shape\"]}";
+        PivotTable table = new PivotTable(dataJson, optionsJson);
         add(table);
     }
 }

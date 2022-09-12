@@ -1,6 +1,13 @@
 import $ from "jquery";
 
-window.drawpivot = function(json) {
-	console.log(json);
-	$("#output").pivotUI(json);
+window.drawPivot = function(dataJson, optionsJson) {
+	let dj = $.parseJSON(dataJson);
+	let oj = $.parseJSON(optionsJson);
+	$("#output").pivot(dj, oj);
+}
+
+window.drawPivotUI = function(dataJson, optionsJson) {
+	let dj = $.parseJSON(dataJson);
+	let oj = $.parseJSON(optionsJson);
+	$("#output").pivotUI(dj, oj);
 }
