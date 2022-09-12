@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.vaadin.addons</groupId>
+    <groupId>org.vaadin.addons.tatu</groupId>
     <artifactId>addon-flow</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>Add-on for Vaadin</name>
@@ -20,7 +20,7 @@
         </project.reporting.outputEncoding>
     </properties>
     <organization>
-        <name>###author###</name>
+        <name>Tatu Lund</name>
     </organization>
     <licenses>
         <license>
@@ -110,6 +110,12 @@
             <artifactId>webdrivermanager</artifactId>
             <version>3.8.1</version>
             <scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jsoup</groupId>
+					<artifactId>jsoup</artifactId>
+				</exclusion>
+			</exclusions>
         </dependency>
     </dependencies>
 
@@ -140,7 +146,7 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.28.v20200408</version>
                 <configuration>
-                    <scanIntervalSeconds>-1</scanIntervalSeconds>
+                    <scanIntervalSeconds>3</scanIntervalSeconds>
                     <!-- Use test scope because the UI/test classes are in
                         the test package. -->
                     <useTestScope>true</useTestScope>
@@ -159,6 +165,10 @@
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
                 <version>${vaadin.version}</version>
+                <configuration>
+                	<requireHomeNodeExec>true</requireHomeNodeExec>
+                	<pnpmEnable>true</pnpmEnable>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -253,6 +263,7 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                             <quiet>true</quiet>
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>

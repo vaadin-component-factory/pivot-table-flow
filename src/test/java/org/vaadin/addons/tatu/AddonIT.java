@@ -1,4 +1,4 @@
-package org.vaadin.example.addon;
+package org.vaadin.addons.tatu;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
 import org.junit.Assert;
