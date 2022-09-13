@@ -36,7 +36,11 @@ public class PivotTable extends Div {
 
     private String dataJson;
     private String optionsJson;
-    private boolean pivotUI;
+    private PivotMode pivotMode;
+
+    public enum PivotMode {
+        INTERACTIVE, NONINTERACTIVE
+    }
 
     public static class PivotOptions implements Serializable {
         private List<String> cols;
@@ -145,12 +149,12 @@ public class PivotTable extends Div {
     }
 
     public PivotTable(PivotData pivotData, PivotOptions pivotOptions) {
-        this(pivotData, pivotOptions, false);
+        this(pivotData, pivotOptions, PivotMode.NONINTERACTIVE);
     }
 
     public PivotTable(PivotData pivotData, PivotOptions pivotOptions,
-            boolean ui) {
-        pivotUI = ui;
+            PivotMode mode) {
+        this.pivotMode = mode;
         setId("output");
         JsonArray pivotArray = pivotData.toJson();
         JsonObject options = pivotOptions.toJson();
@@ -165,7 +169,7 @@ public class PivotTable extends Div {
 //    }
 
     public void onAttach(AttachEvent event) {
-        if (pivotUI) {
+        if (pivotMode == PivotMode.INTERACTIVE) {
             event.getUI().getPage().executeJs("window.drawPivotUI($0, $1);",
                     dataJson, optionsJson);
         } else {

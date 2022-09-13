@@ -1,6 +1,7 @@
 package org.vaadin.addons.tatu;
 
 import org.vaadin.addons.tatu.PivotTable.PivotData;
+import org.vaadin.addons.tatu.PivotTable.PivotMode;
 import org.vaadin.addons.tatu.PivotTable.PivotOptions;
 
 import com.vaadin.flow.component.html.Div;
@@ -24,7 +25,7 @@ public class PivotView extends Div {
         pivotOptions.setRows("color");
         pivotOptions.setCols("shape","size");
 
-        PivotTable table = new PivotTable(pivotData, pivotOptions, true);
+        PivotTable table = new PivotTable(pivotData, pivotOptions, PivotMode.INTERACTIVE);
         add(table);
     }
 }
