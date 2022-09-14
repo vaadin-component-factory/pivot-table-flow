@@ -78,6 +78,11 @@ span.pvtAttr {
     border: none;
 }
 
+.pvtUi select:focus-visible {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    outline: unset;
+}
+
 .pvtUi option {
 	background: var(--lumo-base-color);
 }

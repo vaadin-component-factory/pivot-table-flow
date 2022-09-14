@@ -39,7 +39,6 @@ import elemental.json.impl.JreJsonObject;
 @JavaScript("pivottable/dist/pivot.js")
 @JavaScript("./pivot_connector.js")
 @CssImport("./lumo-pivot.css")
-@Tag("pivot-table")
 public class PivotTable extends Composite<Div> {
 
     private String dataJson;
