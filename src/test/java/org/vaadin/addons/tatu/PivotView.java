@@ -4,6 +4,8 @@ import org.vaadin.addons.tatu.PivotTable.PivotData;
 import org.vaadin.addons.tatu.PivotTable.PivotMode;
 import org.vaadin.addons.tatu.PivotTable.PivotOptions;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 
@@ -23,9 +25,23 @@ public class PivotView extends Div {
 
         PivotOptions pivotOptions = new PivotOptions();
         pivotOptions.setRows("color");
-        pivotOptions.setCols("shape","size");
+        pivotOptions.setCols("shape");
+        pivotOptions.setVals("size");
 
         PivotTable table = new PivotTable(pivotData, pivotOptions, PivotMode.INTERACTIVE);
-        add(table);
+
+        Button button = new Button("Dialog");
+        button.addClickListener(event -> {
+            if (getChildren().anyMatch(child -> child == table)) {
+                remove(table);
+                Dialog dialog = new Dialog();
+                dialog.add(table);
+                dialog.open();
+            } else {
+                add(table);
+            }
+        });
+
+        add(button, table);
     }
 }
