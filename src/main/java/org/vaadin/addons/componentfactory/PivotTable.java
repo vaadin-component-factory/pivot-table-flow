@@ -1,4 +1,4 @@
-package org.vaadin.addons.tatu;
+package org.vaadin.addons.componentfactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,12 +29,12 @@ import elemental.json.impl.JreJsonObject;
 @NpmPackage(value = "jquery", version = "^3.6.1")
 @NpmPackage(value = "jqueryui", version = "^1.11.1")
 @NpmPackage(value = "pivottable", version = "^2.23.0")
-//@NpmPackage(value = "d3", version = "^7.6.1")
-//@NpmPackage(value = "c3", version = "^0.7.20")
+//@NpmPackage(value = "d3", version = "4.2.6")
+//@NpmPackage(value = "c3", version = "0.5.0")
 @CssImport("pivottable/dist/pivot.css")
 @JavaScript("jquery/dist/jquery.min.js")
 @JavaScript("jqueryui/jquery-ui.min.js")
-//@JavaScript("d3/dist/d3.min.js")
+//@JavaScript("d3/build/d3.min.js")
 //@JavaScript("c3/c3.min.js")
 @JavaScript("pivottable/dist/pivot.js")
 @JavaScript("./pivot_connector.js")
@@ -82,7 +82,7 @@ public class PivotTable extends Composite<Div> {
                 object.put("rows", JsonSerializer.toJson(rows));
             }
             if (vals != null) {
-                object.put("rows", JsonSerializer.toJson(vals));
+                object.put("vals", JsonSerializer.toJson(vals));
             }
             return object;
         }

@@ -1,4 +1,4 @@
-package org.vaadin.addons.tatu;
+package org.vaadin.addons.componentfactory;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Assert;
