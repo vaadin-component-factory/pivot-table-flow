@@ -40,7 +40,9 @@
     "@vaadin/vaadin-time-picker": "2.4.0",
     "@vaadin/vaadin-upload": "4.4.3",
     "@webcomponents/webcomponentsjs": "^2.2.10",
+    "c3": "0.5.0",
     "construct-style-sheets-polyfill": "3.0.4",
+    "d3": "4.2.6",
     "jquery": "3.6.1",
     "jqueryui": "1.11.1",
     "lit-element": "2.5.1",
@@ -110,7 +112,9 @@
       "@vaadin/vaadin-time-picker": "2.4.0",
       "@vaadin/vaadin-upload": "4.4.3",
       "@webcomponents/webcomponentsjs": "^2.2.10",
+      "c3": "0.5.0",
       "construct-style-sheets-polyfill": "3.0.4",
+      "d3": "4.2.6",
       "jquery": "^3.6.1",
       "jqueryui": "^1.11.1",
       "lit-element": "2.5.1",
@@ -137,6 +141,6 @@
       "webpack-dev-server": "3.11.0",
       "webpack-merge": "4.2.2"
     },
-    "hash": "620011249fbe1d1bdcc9b24deeb64bdbc8831c6601e0b2481a72b5f33c31242c"
+    "hash": "656344bb892ac319cdb3990f0014ab6a61eb20fea6d7d51460bc4c079d2c6735"
   }
 }

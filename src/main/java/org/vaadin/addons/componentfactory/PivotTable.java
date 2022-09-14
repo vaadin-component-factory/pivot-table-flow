@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
@@ -29,14 +30,16 @@ import elemental.json.impl.JreJsonObject;
 @NpmPackage(value = "jquery", version = "^3.6.1")
 @NpmPackage(value = "jqueryui", version = "^1.11.1")
 @NpmPackage(value = "pivottable", version = "^2.23.0")
-// @NpmPackage(value = "d3", version = "4.2.6")
-// @NpmPackage(value = "c3", version = "0.5.0")
+@NpmPackage(value = "d3", version = "4.2.6")
+@NpmPackage(value = "c3", version = "0.5.0")
 @CssImport("pivottable/dist/pivot.css")
 @JavaScript("jquery/dist/jquery.min.js")
 @JavaScript("jqueryui/jquery-ui.min.js")
-// @JavaScript("d3/build/d3.min.js")
-// @JavaScript("c3/c3.min.js")
+@JavaScript("d3/build/d3.min.js")
+@JavaScript("c3/c3.min.js")
 @JavaScript("pivottable/dist/pivot.js")
+@JavaScript("pivottable/dist/d3_renderers.js")
+@JavaScript("pivottable/dist/c3_renderers.js")
 @JavaScript("./pivot_connector.js")
 @CssImport("./lumo-pivot.css")
 /**
@@ -51,6 +54,7 @@ public class PivotTable extends Composite<Div> {
     private PivotMode pivotMode;
     private Random rand = new Random();
     private String id;
+    private PivotOptions options;
 
     /**
      * The mode, PivotMode.INTERACTIVE renders with Pivot UI.
@@ -63,8 +67,9 @@ public class PivotTable extends Composite<Div> {
      * Options for PivotTable
      */
     public static class PivotOptions implements Serializable {
-        private List<String> cols;
-        private List<String> rows;
+        List<String> cols;
+        List<String> rows;
+        boolean charts;
 
         public PivotOptions() {
         }
@@ -87,6 +92,15 @@ public class PivotTable extends Composite<Div> {
          */
         public void setRows(String... rows) {
             this.rows = Arrays.asList(rows);
+        }
+
+        /**
+         * Enable embbeded charts.
+         * 
+         * @param charts true for charts enabled.
+         */
+        public void setCharts(boolean charts) {
+            this.charts = charts;
         }
 
         JsonObject toJson() {
@@ -245,17 +259,29 @@ public class PivotTable extends Composite<Div> {
         id = randomId(10);
         setId(id);
         JsonArray pivotArray = pivotData.toJson();
-        JsonObject options = pivotOptions.toJson();
+        JsonObject optionsArray = pivotOptions.toJson();
+        this.options = pivotOptions;
         this.dataJson = pivotArray.toJson();
-        this.optionsJson = options.toJson();
+        this.optionsJson = optionsArray.toJson();
     }
 
     @Override
     protected void onAttach(AttachEvent event) {
         super.onAttach(event);
         if (pivotMode == PivotMode.INTERACTIVE) {
-            event.getUI().getPage().executeJs("window.drawPivotUI($0, $1, $2);",
-                    id, dataJson, optionsJson);
+            if (options.charts) {
+                String cols = options.cols.stream()
+                        .collect(Collectors.joining(","));
+                String rows = options.rows.stream()
+                        .collect(Collectors.joining(","));
+                event.getUI().getPage().executeJs(
+                        "window.drawChartPivotUI($0, $1, $2, $3);", id,
+                        dataJson, cols, rows);
+            } else {
+                event.getUI().getPage().executeJs(
+                        "window.drawPivotUI($0, $1, $2);", id, dataJson,
+                        optionsJson);
+            }
         } else {
             event.getUI().getPage().executeJs("window.drawPivot($0, $1, $2);",
                     id, dataJson, optionsJson);

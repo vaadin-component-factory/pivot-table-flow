@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
-    <artifactId>addon-flow</artifactId>
-    <version>0.1.0</version>
-    <name>Add-on for Vaadin</name>
-    <description>###Project Name###</description>
+    <artifactId>pivottable-flow</artifactId>
+    <version>0.2.0</version>
+    <name>PivotTable for Vaadin</name>
+    <description>Flow integration of pivottable.js</description>
 
     <properties>
         <vaadin.version>14.8.16</vaadin.version>

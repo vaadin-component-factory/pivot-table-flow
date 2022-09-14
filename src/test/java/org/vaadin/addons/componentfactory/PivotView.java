@@ -28,6 +28,7 @@ public class PivotView extends Div {
         PivotOptions pivotOptions = new PivotOptions();
         pivotOptions.setRows("color");
         pivotOptions.setCols("shape");
+        pivotOptions.setCharts(true);
 
         PivotTable table = new PivotTable(pivotData, pivotOptions, PivotMode.INTERACTIVE);
 
