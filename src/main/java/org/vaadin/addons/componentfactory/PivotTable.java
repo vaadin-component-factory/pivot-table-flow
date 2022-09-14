@@ -29,16 +29,21 @@ import elemental.json.impl.JreJsonObject;
 @NpmPackage(value = "jquery", version = "^3.6.1")
 @NpmPackage(value = "jqueryui", version = "^1.11.1")
 @NpmPackage(value = "pivottable", version = "^2.23.0")
-//@NpmPackage(value = "d3", version = "4.2.6")
-//@NpmPackage(value = "c3", version = "0.5.0")
+// @NpmPackage(value = "d3", version = "4.2.6")
+// @NpmPackage(value = "c3", version = "0.5.0")
 @CssImport("pivottable/dist/pivot.css")
 @JavaScript("jquery/dist/jquery.min.js")
 @JavaScript("jqueryui/jquery-ui.min.js")
-//@JavaScript("d3/build/d3.min.js")
-//@JavaScript("c3/c3.min.js")
+// @JavaScript("d3/build/d3.min.js")
+// @JavaScript("c3/c3.min.js")
 @JavaScript("pivottable/dist/pivot.js")
 @JavaScript("./pivot_connector.js")
 @CssImport("./lumo-pivot.css")
+/**
+ * PivotTable is component based on pivottable.js. This component performs
+ * pivoting of the dataset in the browser. Thus it is suitable for small
+ * datasets which do not require lazy loading from the backend.
+ */
 public class PivotTable extends Composite<Div> {
 
     private String dataJson;
@@ -47,31 +52,44 @@ public class PivotTable extends Composite<Div> {
     private Random rand = new Random();
     private String id;
 
+    /**
+     * The mode, PivotMode.INTERACTIVE renders with Pivot UI.
+     */
     public enum PivotMode {
         INTERACTIVE, NONINTERACTIVE
     }
 
+    /**
+     * Options for PivotTable
+     */
     public static class PivotOptions implements Serializable {
         private List<String> cols;
         private List<String> rows;
-        private List<String> vals;
 
         public PivotOptions() {
         }
 
+        /**
+         * Set default columns for the pivot
+         * 
+         * @param cols
+         *            Column identifiers
+         */
         public void setCols(String... cols) {
             this.cols = Arrays.asList(cols);
         }
 
+        /**
+         * Set default rows for the pivot
+         * 
+         * @param rows
+         *            Row identifiers
+         */
         public void setRows(String... rows) {
             this.rows = Arrays.asList(rows);
         }
 
-        public void setVals(String... vals) {
-            this.vals = Arrays.asList(vals);
-        }
-
-        public JsonObject toJson() {
+        JsonObject toJson() {
             JreJsonFactory factory = new JreJsonFactory();
             JsonObject object = new JreJsonObject(factory);
             if (cols != null) {
@@ -80,13 +98,14 @@ public class PivotTable extends Composite<Div> {
             if (rows != null) {
                 object.put("rows", JsonSerializer.toJson(rows));
             }
-            if (vals != null) {
-                object.put("vals", JsonSerializer.toJson(vals));
-            }
             return object;
         }
     }
 
+    /**
+     * Data model for PivotTable. Columns need to be configured first, then add
+     * rows.
+     */
     public static class PivotData implements Serializable {
         private LinkedHashMap<String, Class<?>> columns = new LinkedHashMap<>();
         private List<Map<String, Object>> rows = new ArrayList<>();
@@ -94,9 +113,18 @@ public class PivotTable extends Composite<Div> {
         public PivotData() {
         }
 
+        /**
+         * Add column.
+         * 
+         * @param name
+         *            Name of the column, unique.
+         * @param type
+         *            Data type used in the column
+         */
         public void addColumn(String name, Class<?> type) {
             if (type.isAssignableFrom(Boolean.class)
                     || type.isAssignableFrom(Double.class)
+                    || type.isAssignableFrom(Integer.class)
                     || type.isAssignableFrom(String.class)) {
                 columns.put(name, type);
             } else {
@@ -105,6 +133,12 @@ public class PivotTable extends Composite<Div> {
             }
         }
 
+        /**
+         * Add a row of data objects.
+         * 
+         * @param datas
+         *            Data objects in the same order as columns were added.
+         */
         public void addRow(Object... datas) {
             if (datas.length != columns.size()) {
                 throw new IllegalArgumentException(
@@ -119,13 +153,19 @@ public class PivotTable extends Composite<Div> {
             addRow(map);
         }
 
+        /**
+         * Add row from the map.
+         * 
+         * @param row
+         *            Map of column key data object pairs.
+         */
         public void addRow(Map<String, Object> row) {
             assert row.keySet().stream().allMatch(key -> columns.containsKey(
                     key)) : "Column key missing from configured columns.";
             rows.add(row);
         }
 
-        public JsonArray toJson() {
+        JsonArray toJson() {
             JreJsonFactory factory = new JreJsonFactory();
             JsonArray array = new JreJsonArray(factory);
             AtomicInteger i = new AtomicInteger(0);
@@ -136,6 +176,9 @@ public class PivotTable extends Composite<Div> {
                         obj.put(name, (Boolean) row.get(name));
                     } else if (type.isAssignableFrom(Double.class)) {
                         obj.put(name, (Double) row.get(name));
+                    } else if (type.isAssignableFrom(Integer.class)) {
+                        obj.put(name, (Double) Double
+                                .valueOf((Integer) row.get(name)));
                     } else if (type.isAssignableFrom(String.class)) {
                         obj.put(name, (String) row.get(name));
                     }
@@ -146,6 +189,9 @@ public class PivotTable extends Composite<Div> {
             return array;
         }
 
+        /**
+         * Import data from JsonArray.
+         */
         public void readJson(JsonArray array) {
             columns.clear();
             rows.clear();
@@ -169,10 +215,30 @@ public class PivotTable extends Composite<Div> {
         }
     }
 
+    /**
+     * Create PivotTable using PivotMode.NONINTERACTIVE and given data and
+     * options.
+     * 
+     * @param pivotData
+     *            PivotData
+     * @param pivotOptions
+     *            PivotOptioms
+     */
     public PivotTable(PivotData pivotData, PivotOptions pivotOptions) {
         this(pivotData, pivotOptions, PivotMode.NONINTERACTIVE);
     }
 
+    /**
+     * Create PivotTable using given data and options.
+     * 
+     * @param pivotData
+     *            PivotData
+     * @param pivotOptions
+     *            PivotOptioms
+     * @param mode
+     *            The mode, PivotMode.INTERACTIVE renders PivotTable with
+     *            interactive UI.
+     */
     public PivotTable(PivotData pivotData, PivotOptions pivotOptions,
             PivotMode mode) {
         this.pivotMode = mode;
@@ -184,13 +250,9 @@ public class PivotTable extends Composite<Div> {
         this.optionsJson = options.toJson();
     }
 
-    // public PivotTable(String dataJson, String optionsJson) {
-    // setId("output");
-    // this.dataJson = dataJson;
-    // this.optionsJson = optionsJson;
-    // }
-
-    public void onAttach(AttachEvent event) {
+    @Override
+    protected void onAttach(AttachEvent event) {
+        super.onAttach(event);
         if (pivotMode == PivotMode.INTERACTIVE) {
             event.getUI().getPage().executeJs("window.drawPivotUI($0, $1, $2);",
                     id, dataJson, optionsJson);

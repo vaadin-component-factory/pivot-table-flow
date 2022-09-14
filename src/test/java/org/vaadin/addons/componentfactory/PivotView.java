@@ -17,18 +17,17 @@ public class PivotView extends Div {
         PivotData pivotData = new PivotData();
         pivotData.addColumn("color", String.class);
         pivotData.addColumn("shape", String.class);
-        pivotData.addColumn("size", Double.class);
+        pivotData.addColumn("size", Integer.class);
         pivotData.addColumn("filled", Boolean.class);
-        pivotData.addRow("blue", "circle", 2d, true);
-        pivotData.addRow("red", "triangle", 3d, false);
-        pivotData.addRow("orange", "square", 1d, true);
-        pivotData.addRow("yellow", "circle", 3d, false);
-        pivotData.addRow("brown", "circle", 2d, true);
+        pivotData.addRow("blue", "circle", 2, true);
+        pivotData.addRow("red", "triangle", 3, false);
+        pivotData.addRow("orange", "square", 1, true);
+        pivotData.addRow("yellow", "circle", 3, false);
+        pivotData.addRow("brown", "circle", 2, true);
 
         PivotOptions pivotOptions = new PivotOptions();
         pivotOptions.setRows("color");
         pivotOptions.setCols("shape");
-        pivotOptions.setVals("size");
 
         PivotTable table = new PivotTable(pivotData, pivotOptions, PivotMode.INTERACTIVE);
 
