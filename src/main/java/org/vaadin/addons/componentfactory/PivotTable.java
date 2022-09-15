@@ -3,6 +3,7 @@ package org.vaadin.addons.componentfactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,6 +19,8 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.data.binder.BeanPropertySet;
+import com.vaadin.flow.data.binder.PropertySet;
 import com.vaadin.flow.internal.JsonSerializer;
 
 import elemental.json.JsonArray;
@@ -97,7 +100,8 @@ public class PivotTable extends Composite<Div> {
         /**
          * Enable embbeded charts.
          * 
-         * @param charts true for charts enabled.
+         * @param charts
+         *            true for charts enabled.
          */
         public void setCharts(boolean charts) {
             this.charts = charts;
@@ -117,15 +121,12 @@ public class PivotTable extends Composite<Div> {
     }
 
     /**
-     * Data model for PivotTable. Columns need to be configured first, then add
-     * rows.
+     * Abastract base class for Pivot data models.
      */
-    public static class PivotData implements Serializable {
-        private LinkedHashMap<String, Class<?>> columns = new LinkedHashMap<>();
-        private List<Map<String, Object>> rows = new ArrayList<>();
+    public static abstract class AbstractPivotData implements Serializable {
 
-        public PivotData() {
-        }
+        LinkedHashMap<String, Class<?>> columns = new LinkedHashMap<>();
+        List<Map<String, Object>> rows = new ArrayList<>();
 
         /**
          * Add column.
@@ -145,26 +146,6 @@ public class PivotTable extends Composite<Div> {
                 throw new IllegalStateException(
                         "PivotData only supports data compatible with String, Double and Boolean");
             }
-        }
-
-        /**
-         * Add a row of data objects.
-         * 
-         * @param datas
-         *            Data objects in the same order as columns were added.
-         */
-        public void addRow(Object... datas) {
-            if (datas.length != columns.size()) {
-                throw new IllegalArgumentException(
-                        "Number of datas do not match with number of columns.");
-            }
-            Map<String, Object> map = new HashMap<>();
-            int i = 0;
-            for (String key : columns.keySet()) {
-                map.put(key, datas[i]);
-                i++;
-            }
-            addRow(map);
         }
 
         /**
@@ -202,30 +183,66 @@ public class PivotTable extends Composite<Div> {
             });
             return array;
         }
+    }
+
+    /**
+     * Pivot dataa model that auto creates based on list of beans using
+     * introspection.
+     * <p>
+     * Note: Bean properties need to be compatible with Integer, Double, Boolean
+     * or String.
+     */
+    public static class BeanPivotData<T> extends AbstractPivotData {
+
+        PropertySet<T> propertySet;
+
+        public BeanPivotData(Class<T> beanType, Collection<T> data) {
+            propertySet = BeanPropertySet.get(beanType);
+            propertySet.getProperties()
+                    .filter(property -> !property.isSubProperty())
+                    .sorted((prop1, prop2) -> prop1.getName()
+                            .compareTo(prop2.getName()))
+                    .forEach(prop -> addColumn(prop.getName(), prop.getType()));
+            data.forEach(item -> {
+                HashMap<String, Object> map = new HashMap<>();
+                propertySet.getProperties()
+                        .filter(property -> !property.isSubProperty())
+                        .sorted((prop1, prop2) -> prop1.getName()
+                                .compareTo(prop2.getName()))
+                        .forEach(prop -> map.put(prop.getName(),
+                                prop.getGetter().apply(item)));
+                addRow(map);
+            });
+        }
+    }
+
+    /**
+     * Data model for PivotTable. Columns need to be configured first, then add
+     * rows.
+     */
+    public static class PivotData extends AbstractPivotData {
+
+        public PivotData() {
+        }
 
         /**
-         * Import data from JsonArray.
+         * Add a row of data objects.
+         * 
+         * @param datas
+         *            Data objects in the same order as columns were added.
          */
-        public void readJson(JsonArray array) {
-            columns.clear();
-            rows.clear();
-            for (int i = 0; i < 0; array.length()) {
-                JsonObject obj = array.getObject(i);
-                for (String key : obj.keys()) {
-                    Map<String, Object> row = new HashMap<>();
-                    JsonType type = obj.getObject(key).getType();
-                    if (type == JsonType.NUMBER) {
-                        columns.put(key, Double.class);
-                        row.put(key, obj.getNumber(key));
-                    } else if (type == JsonType.BOOLEAN) {
-                        columns.put(key, Boolean.class);
-                        row.put(key, obj.getBoolean(key));
-                    } else if (type == JsonType.STRING) {
-                        columns.put(key, String.class);
-                        row.put(key, obj.getString(key));
-                    }
-                }
+        public void addRow(Object... datas) {
+            if (datas.length != columns.size()) {
+                throw new IllegalArgumentException(
+                        "Number of datas do not match with number of columns.");
             }
+            Map<String, Object> map = new HashMap<>();
+            int i = 0;
+            for (String key : columns.keySet()) {
+                map.put(key, datas[i]);
+                i++;
+            }
+            addRow(map);
         }
     }
 
@@ -253,7 +270,7 @@ public class PivotTable extends Composite<Div> {
      *            The mode, PivotMode.INTERACTIVE renders PivotTable with
      *            interactive UI.
      */
-    public PivotTable(PivotData pivotData, PivotOptions pivotOptions,
+    public PivotTable(AbstractPivotData pivotData, PivotOptions pivotOptions,
             PivotMode mode) {
         this.pivotMode = mode;
         id = randomId(10);

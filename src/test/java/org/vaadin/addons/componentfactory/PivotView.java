@@ -1,6 +1,5 @@
 package org.vaadin.addons.componentfactory;
 
-import org.vaadin.addons.componentfactory.PivotTable;
 import org.vaadin.addons.componentfactory.PivotTable.PivotData;
 import org.vaadin.addons.componentfactory.PivotTable.PivotMode;
 import org.vaadin.addons.componentfactory.PivotTable.PivotOptions;
@@ -30,7 +29,8 @@ public class PivotView extends Div {
         pivotOptions.setCols("shape");
         pivotOptions.setCharts(true);
 
-        PivotTable table = new PivotTable(pivotData, pivotOptions, PivotMode.INTERACTIVE);
+        PivotTable table = new PivotTable(pivotData, pivotOptions,
+                PivotMode.INTERACTIVE);
 
         Button button = new Button("Dialog");
         button.addClickListener(event -> {
@@ -46,4 +46,5 @@ public class PivotView extends Div {
 
         add(button, table);
     }
+
 }
