@@ -35,6 +35,7 @@ import elemental.json.impl.JreJsonObject;
 @NpmPackage(value = "pivottable", version = "^2.23.0")
 @NpmPackage(value = "d3", version = "4.2.6")
 @NpmPackage(value = "c3", version = "0.5.0")
+@CssImport("c3/c3.min.css")
 @CssImport("pivottable/dist/pivot.css")
 @JavaScript("jquery/dist/jquery.min.js")
 @JavaScript("jqueryui/jquery-ui.min.js")
@@ -144,8 +145,6 @@ public class PivotTable extends Composite<Div> {
                 columns.put(name, type);
             } else {
                 columns.put(name, String.class);
-//                throw new IllegalStateException(
-//                        "PivotData only supports data compatible with String, Double and Boolean");
             }
         }
 
@@ -193,7 +192,8 @@ public class PivotTable extends Composite<Div> {
      * introspection.
      * <p>
      * Note: Bean properties need to be compatible with Integer, Double, Boolean
-     * or String.
+     * to be considered either number or boolean on the client side Other types
+     * are converted to String using object.toString.
      */
     public static class BeanPivotData<T> extends AbstractPivotData {
 
@@ -290,10 +290,12 @@ public class PivotTable extends Composite<Div> {
         super.onAttach(event);
         if (pivotMode == PivotMode.INTERACTIVE) {
             if (options.charts) {
-                String cols = options.cols.stream()
-                        .collect(Collectors.joining(","));
-                String rows = options.rows.stream()
-                        .collect(Collectors.joining(","));
+                String cols = options.cols != null
+                        ? options.cols.stream().collect(Collectors.joining(","))
+                        : null;
+                String rows = options.cols != null
+                        ? options.rows.stream().collect(Collectors.joining(","))
+                        : null;
                 event.getUI().getPage().executeJs(
                         "window.drawChartPivotUI($0, $1, $2, $3);", id,
                         dataJson, cols, rows);
