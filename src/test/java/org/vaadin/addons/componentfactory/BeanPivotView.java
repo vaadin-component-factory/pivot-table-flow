@@ -1,5 +1,6 @@
 package org.vaadin.addons.componentfactory;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,13 +16,18 @@ import com.vaadin.flow.router.Route;
 @Route("bean")
 public class BeanPivotView extends Div {
 
+    public enum Fill {
+        FILLED, OUTLINED;
+    }
+
     public class Shape {
         private String color;
         private String shape;
         private Integer size;
-        private Boolean filled;
+        private Fill filled;
+        private LocalDate date = LocalDate.now();
 
-        public Shape(String shape, String color, Integer size, Boolean filled) {
+        public Shape(String shape, String color, Integer size, Fill filled) {
             this.color = color;
             this.shape = shape;
             this.size = size;
@@ -52,26 +58,36 @@ public class BeanPivotView extends Div {
             this.size = size;
         }
 
-        public Boolean getFilled() {
+        public Fill getFilled() {
             return filled;
         }
 
-        public void setFilled(Boolean filled) {
+        public void setFilled(Fill filled) {
             this.filled = filled;
         }
+
+        public LocalDate getDate() {
+            return date;
+        }
+
+        public void setDate(LocalDate date) {
+            this.date = date;
+        }
+
     }
 
     public BeanPivotView() {
-        Shape shape1 = new Shape("circle","blue",2,true);
-        Shape shape2 = new Shape("triangle","red",3,false);
-        Shape shape3 = new Shape("square","orange",1,true);
-        Shape shape4 = new Shape("circle","yellow",3,false);
-        Shape shape5 = new Shape("circle","brown",2,true);
+        Shape shape1 = new Shape("circle", "blue", 2, Fill.FILLED);
+        Shape shape2 = new Shape("triangle", "red", 3, Fill.OUTLINED);
+        Shape shape3 = new Shape("square", "orange", 1, Fill.FILLED);
+        Shape shape4 = new Shape("circle", "yellow", 3, Fill.OUTLINED);
+        Shape shape5 = new Shape("circle", "brown", 2, Fill.FILLED);
 
-        List<Shape> list = Arrays.asList(shape1, shape2, shape3, shape4, shape5);
-        
+        List<Shape> list = Arrays.asList(shape1, shape2, shape3, shape4,
+                shape5);
+
         BeanPivotData<Shape> pivotData = new BeanPivotData<>(Shape.class, list);
-        
+
         PivotOptions pivotOptions = new PivotOptions();
         pivotOptions.setRows("color");
         pivotOptions.setCols("shape");

@@ -143,8 +143,9 @@ public class PivotTable extends Composite<Div> {
                     || type.isAssignableFrom(String.class)) {
                 columns.put(name, type);
             } else {
-                throw new IllegalStateException(
-                        "PivotData only supports data compatible with String, Double and Boolean");
+                columns.put(name, String.class);
+//                throw new IllegalStateException(
+//                        "PivotData only supports data compatible with String, Double and Boolean");
             }
         }
 
@@ -175,7 +176,9 @@ public class PivotTable extends Composite<Div> {
                         obj.put(name, (Double) Double
                                 .valueOf((Integer) row.get(name)));
                     } else if (type.isAssignableFrom(String.class)) {
-                        obj.put(name, (String) row.get(name));
+                        obj.put(name, (String) row.get(name).toString());
+                    } else {
+                        obj.put(name, (String) row.get(name).toString());
                     }
                 });
                 array.set(i.get(), obj);
