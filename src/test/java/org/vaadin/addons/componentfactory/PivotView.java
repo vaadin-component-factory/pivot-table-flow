@@ -4,6 +4,7 @@ import org.vaadin.addons.componentfactory.PivotTable.PivotData;
 import org.vaadin.addons.componentfactory.PivotTable.PivotMode;
 import org.vaadin.addons.componentfactory.PivotTable.PivotOptions;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
@@ -32,18 +33,20 @@ public class PivotView extends Div {
         PivotTable table = new PivotTable(pivotData, pivotOptions,
                 PivotMode.INTERACTIVE);
 
-        Button button = new Button("Dialog");
+        Button button = new Button("to Dialog");
         button.addClickListener(event -> {
             if (getChildren().anyMatch(child -> child == table)) {
                 remove(table);
+                button.setText("to Normal");
                 Dialog dialog = new Dialog();
                 dialog.add(table);
                 dialog.open();
             } else {
+                button.setText("to Dialog");
                 add(table);
             }
         });
-
+        
         add(button, table);
     }
 
