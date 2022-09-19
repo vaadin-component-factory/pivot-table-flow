@@ -44,6 +44,7 @@ span.pvtAttr {
 .pvtVals {
 	background: var(--lumo-contrast-5pct);
     border-radius: var(--lumo-border-radius-m);
+    text-align: left;
 }
 
 .pvtTable {
@@ -76,6 +77,15 @@ span.pvtAttr {
     font-size: var(--lumo-font-size-m);
     min-height: var(--lumo-text-field-size, var(--lumo-size-m));
     border: none;
+    width: var(--vaadin-field-default-width, 12em);
+}
+
+.pvtFilterBox h4 {
+	cursor: move;
+}
+
+.pvtTriangle {
+    color: var(--lumo-contrast-60);
 }
 
 .pvtUi select:focus-visible {

@@ -32,20 +32,17 @@ window.drawChartPivotUI = function(id, dataJson, cols, rows) {
 
 function setupPivotPopupDragging() {
     const elements = document.getElementsByClassName("pvtFilterBox");
-	console.log("Setup dragging: "+elements.length);
     for (let i=0;i<elements.length;i++) {
-        console.log("Setup");
 		dragPivotPopup(elements[i]);
 	}	
 }
 
 function dragPivotPopup(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  console.log("dragPivotPopup");
-  elmnt.onmousedown = dragMouseDown;
+  const element = elmnt.getElementsByTagName("h4")[0];
+  element.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
-	console.log("Drag");
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:

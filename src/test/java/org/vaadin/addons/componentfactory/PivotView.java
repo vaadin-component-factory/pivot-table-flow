@@ -8,6 +8,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.Route;
 
 @Route("")
@@ -46,7 +47,7 @@ public class PivotView extends Div {
                 add(table);
             }
         });
-        
+
         add(button, table);
     }
 
