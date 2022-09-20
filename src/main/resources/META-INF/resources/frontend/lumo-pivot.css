@@ -80,6 +80,19 @@ span.pvtAttr {
     width: var(--vaadin-field-default-width, 12em);
 }
 
+.pvtSearch {
+    border-radius: var(--lumo-border-radius-m);
+    background-color: var(--lumo-contrast-10pct);
+    padding: 0 calc(0.375em + var(--lumo-border-radius-m) / 4 - 1px);
+    font-weight: 500;
+    line-height: 1;
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size-m);
+    min-height: var(--lumo-text-field-size, var(--lumo-size-m));
+    border: none;
+    width: var(--vaadin-field-default-width, 12em);
+}
+
 .pvtFilterBox h4 {
 	cursor: move;
 }
@@ -91,6 +104,12 @@ span.pvtAttr {
 .pvtUi select:focus-visible {
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     outline: unset;
+}
+
+.pvtSearch:focus-visible {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    outline: unset;
+
 }
 
 .pvtUi option {

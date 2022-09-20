@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -25,7 +24,6 @@ import com.vaadin.flow.internal.JsonSerializer;
 
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
-import elemental.json.JsonType;
 import elemental.json.impl.JreJsonArray;
 import elemental.json.impl.JreJsonFactory;
 import elemental.json.impl.JreJsonObject;
@@ -160,7 +158,7 @@ public class PivotTable extends Composite<Div> {
             rows.add(row);
         }
 
-        JsonArray toJson() {
+        String toJson() {
             JreJsonFactory factory = new JreJsonFactory();
             JsonArray array = new JreJsonArray(factory);
             AtomicInteger i = new AtomicInteger(0);
@@ -183,7 +181,7 @@ public class PivotTable extends Composite<Div> {
                 array.set(i.get(), obj);
                 i.incrementAndGet();
             });
-            return array;
+            return array.toJson();
         }
     }
 
@@ -246,6 +244,19 @@ public class PivotTable extends Composite<Div> {
                 i++;
             }
             addRow(map);
+        }       
+    }
+
+    public static class JsonPivotData extends AbstractPivotData {
+        private String json;
+
+        public JsonPivotData(String json) {
+            this.json = json;
+        }
+
+        @Override
+        public String toJson() {
+            return json;
         }
     }
 
@@ -278,10 +289,9 @@ public class PivotTable extends Composite<Div> {
         this.pivotMode = mode;
         id = randomId(10);
         setId(id);
-        JsonArray pivotArray = pivotData.toJson();
         JsonObject optionsArray = pivotOptions.toJson();
         this.options = pivotOptions;
-        this.dataJson = pivotArray.toJson();
+        this.dataJson = pivotData.toJson();
         this.optionsJson = optionsArray.toJson();
     }
 
