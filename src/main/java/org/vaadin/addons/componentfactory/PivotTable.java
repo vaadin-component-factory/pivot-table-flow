@@ -109,7 +109,7 @@ public class PivotTable extends Composite<Div> {
         }
 
         /**
-         * Set default rows for the pivot
+         * Set default rows for the pivot.
          * 
          * @param rows
          *            Row identifiers
@@ -120,25 +120,31 @@ public class PivotTable extends Composite<Div> {
 
         /**
          * Set disabled renderers.
-         * <p>
-         * 
+         *
          * @see Renderer
          * 
-         * @param rows
+         * @param renderers
          *            Renderers to disable.
          */
         public void setDisabledRenderers(String... renderers) {
             this.disabledRerenders = Arrays.asList(renderers);
         }
 
+        /**
+         * Set the default renderer.
+         *
+         * @see Renderer
+         *
+         * @param renderer The renderer name.
+         */
         public void setRenderer(String renderer) {
             this.renderer = renderer;
         }
 
         /**
-         * When true fields cannot be rearranged.
+         * When false fields cannot be rearranged.
          * 
-         * @param fieldsDraggable
+         * @param fieldsDisabled
          *            Boolean value.
          */
         public void setFieldsDisabled(boolean fieldsDisabled) {
