@@ -7,7 +7,7 @@ window.drawPivot = function(id, dataJson, optionsJson) {
 	$("#"+id).pivot(dj, oj);
 }
 
-window.drawPivotUI = function(id, dataJson, optionsJson) {
+window.drawPivotUI = function(id, dataJson, optionsJson, renderer, disabled) {
     var renderers = $.extend(
        $.pivotUtilities.renderers,
        $.pivotUtilities.c3_renderers,
@@ -17,21 +17,56 @@ window.drawPivotUI = function(id, dataJson, optionsJson) {
 	let oj = $.parseJSON(optionsJson);
 	$("#"+id).pivotUI(dj, oj);	
     setupPivotPopupDragging();
+    if (disabled) {
+		disableFields(id);
+	}
+    if (renderer) {
+	    const rendererSelect = $("#"+id).find(".pvtRenderer");
+		rendererSelect.value = renderer;
+		rendererSelect.dispatchEvent(new Event("change"));
+    }
 }
 
-window.drawChartPivotUI = function(id, dataJson, cols, rows) {
+window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, renderer, disabled) {
     var renderers = $.extend(
        $.pivotUtilities.renderers,
        $.pivotUtilities.c3_renderers,
        $.pivotUtilities.d3_renderers
     )
 	let dj = $.parseJSON(dataJson);
-	$("#"+id).pivotUI(dj, { cols: [cols], rows: [rows] , renderers: renderers }, true);
-    setupPivotPopupDragging();
+	const cs = cols.split(",");
+	const rs = rows.split(",");
+	$("#"+id).pivotUI(dj, { cols: cs, rows: rs, renderers: renderers }, true);
+    setupPivotPopupDragging(id);
+    if (renderer) {
+	    $("#"+id).find(".pvtRenderer").val(renderer);
+    }
+    if (disabled) {
+		disableFields(id);
+	}
+	if (disabledRenderers) {
+		disableRenderers(id, disabledRenderers);
+	}
 }
 
-function setupPivotPopupDragging() {
-    const elements = document.getElementsByClassName("pvtFilterBox");
+function disableRenderers(id, disabledRenderers) {
+	const disabled = disabledRenderers.split(",");
+    for (let i=0;i<disabled.length;i++) {
+		$("#"+id).find(".pvtRenderer").find("[value='"+disabled[i]+"']").css("display","none");
+    }
+}
+
+function disableFields(id) {
+	$("#"+id).find(".pvtUnused").css("display","none");
+    const elements = $("#"+id).find(".ui-sortable-handle");
+    for (let i=0;i<elements.length;i++) {
+		elements[i].style.pointerEvents = "none";
+		elements[i].getElementsByClassName("pvtTriangle")[0].style.display = "none";
+	}
+}
+
+function setupPivotPopupDragging(id) {
+    const elements = $("#"+id).find(".pvtFilterBox");
     for (let i=0;i<elements.length;i++) {
 		dragPivotPopup(elements[i]);
 	}	

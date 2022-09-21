@@ -66,12 +66,34 @@ public class PivotTable extends Composite<Div> {
     }
 
     /**
+     * Utility helpers for valid renderer strings.
+     */
+    public final class Renderer {
+        public static final String TABLE = "Table";
+        public static final String TABLE_BARCHART = "Table Barchart";
+        public static final String TABLE_HEATMAP = "Heatmap";
+        public static final String ROW_HEATMAP = "Row Heatmap";
+        public static final String COL_HEATMAP = "Col Heatmap";
+        public static final String HORIZONTAL_BAR_CHART = "Horizontal Bar Chart";
+        public static final String HORIZONTAL_STACKED_BAR_CHART = "Horizontal Stacked Bar Chart";
+        public static final String BAR_CHART = "Bar Chart";
+        public static final String STACKED_BAR_CHART = "Stacked Bar Chart";
+        public static final String LINE_CHART = "Line Chart";
+        public static final String AREA_CHART = "Area Chart";
+        public static final String SCATTER_CHART = "Scatter Chart";
+        public static final String TREEMAP = "Treemap";
+    }
+
+    /**
      * Options for PivotTable
      */
     public static class PivotOptions implements Serializable {
         List<String> cols;
         List<String> rows;
+        List<String> disabledRerenders;
+        String renderer;
         boolean charts;
+        boolean fieldsDisabled;
 
         public PivotOptions() {
         }
@@ -94,6 +116,33 @@ public class PivotTable extends Composite<Div> {
          */
         public void setRows(String... rows) {
             this.rows = Arrays.asList(rows);
+        }
+
+        /**
+         * Set disabled renderers.
+         * <p>
+         * 
+         * @see Renderer
+         * 
+         * @param rows
+         *            Renderers to disable.
+         */
+        public void setDisabledRenderers(String... renderers) {
+            this.disabledRerenders = Arrays.asList(renderers);
+        }
+
+        public void setRenderer(String renderer) {
+            this.renderer = renderer;
+        }
+
+        /**
+         * When true fields cannot be rearranged.
+         * 
+         * @param fieldsDraggable
+         *            Boolean value.
+         */
+        public void setFieldsDisabled(boolean fieldsDisabled) {
+            this.fieldsDisabled = fieldsDisabled;
         }
 
         /**
@@ -244,7 +293,7 @@ public class PivotTable extends Composite<Div> {
                 i++;
             }
             addRow(map);
-        }       
+        }
     }
 
     public static class JsonPivotData extends AbstractPivotData {
@@ -303,16 +352,21 @@ public class PivotTable extends Composite<Div> {
                 String cols = options.cols != null
                         ? options.cols.stream().collect(Collectors.joining(","))
                         : null;
-                String rows = options.cols != null
+                String rows = options.rows != null
                         ? options.rows.stream().collect(Collectors.joining(","))
                         : null;
+                String disabledRenderers = options.disabledRerenders != null
+                        ? options.disabledRerenders.stream()
+                                .collect(Collectors.joining(","))
+                        : null;
                 event.getUI().getPage().executeJs(
-                        "window.drawChartPivotUI($0, $1, $2, $3);", id,
-                        dataJson, cols, rows);
+                        "window.drawChartPivotUI($0, $1, $2, $3, $4, $5, $6);",
+                        id, dataJson, cols, rows, disabledRenderers,
+                        options.renderer, options.fieldsDisabled);
             } else {
                 event.getUI().getPage().executeJs(
-                        "window.drawPivotUI($0, $1, $2);", id, dataJson,
-                        optionsJson);
+                        "window.drawPivotUI($0, $1, $2, $3, $4);", id, dataJson,
+                        optionsJson, options.renderer, options.fieldsDisabled);
             }
         } else {
             event.getUI().getPage().executeJs("window.drawPivot($0, $1, $2);",

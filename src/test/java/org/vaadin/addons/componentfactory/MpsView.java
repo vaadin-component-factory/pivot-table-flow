@@ -13,6 +13,7 @@ import org.vaadin.addons.componentfactory.PivotTable.JsonPivotData;
 import org.vaadin.addons.componentfactory.PivotTable.PivotData;
 import org.vaadin.addons.componentfactory.PivotTable.PivotMode;
 import org.vaadin.addons.componentfactory.PivotTable.PivotOptions;
+import org.vaadin.addons.componentfactory.PivotTable.Renderer;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -93,31 +94,21 @@ public class MpsView extends Div {
             System.out.println("No file");
         }
 
-        
         JsonPivotData pivotData = new JsonPivotData(json);
-//        pivotData.readJson(json);
 
         PivotOptions pivotOptions = new PivotOptions();
-//        pivotOptions.setRows("color");
-//        pivotOptions.setCols("shape");
+        pivotOptions.setRows("Party","Gender");
+        pivotOptions.setCols("Province");
+        pivotOptions.setRenderer(Renderer.BAR_CHART);
         pivotOptions.setCharts(true);
+        pivotOptions.setFieldsDisabled(true);
+
+        pivotOptions.setDisabledRenderers(Renderer.TREEMAP, Renderer.SCATTER_CHART);
 
         PivotTable table = new PivotTable(pivotData, pivotOptions,
                 PivotMode.INTERACTIVE);
 
-        Button button = new Button("Dialog");
-        button.addClickListener(event -> {
-            if (getChildren().anyMatch(child -> child == table)) {
-                remove(table);
-                Dialog dialog = new Dialog();
-                dialog.add(table);
-                dialog.open();
-            } else {
-                add(table);
-            }
-        });
-
-        add(button, table);
+        add(table);
     }
 
 }

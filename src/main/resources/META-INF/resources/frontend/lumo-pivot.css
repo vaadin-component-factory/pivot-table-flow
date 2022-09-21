@@ -176,3 +176,8 @@ span.count {
 .pvtFilterBox {
     border-radius: var(--lumo-border-radius-m);
 }
+
+.pvtCheckContainer label {
+	display: flex;
+	align-items: center;
+}

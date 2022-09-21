@@ -3,6 +3,7 @@ package org.vaadin.addons.componentfactory;
 import org.vaadin.addons.componentfactory.PivotTable.PivotData;
 import org.vaadin.addons.componentfactory.PivotTable.PivotMode;
 import org.vaadin.addons.componentfactory.PivotTable.PivotOptions;
+import org.vaadin.addons.componentfactory.PivotTable.Renderer;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -41,6 +42,8 @@ public class PivotView extends Div {
                 button.setText("to Normal");
                 Dialog dialog = new Dialog();
                 dialog.add(table);
+                dialog.setWidth("100%");
+                dialog.setHeight("100%");
                 dialog.open();
             } else {
                 button.setText("to Dialog");
