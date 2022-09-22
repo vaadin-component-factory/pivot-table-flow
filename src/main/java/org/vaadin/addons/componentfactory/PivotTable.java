@@ -40,8 +40,8 @@ import elemental.json.impl.JreJsonObject;
 @JavaScript("d3/build/d3.min.js")
 @JavaScript("c3/c3.min.js")
 @JavaScript("pivottable/dist/pivot.js")
-@JavaScript("pivottable/dist/d3_renderers.js")
 @JavaScript("pivottable/dist/c3_renderers.js")
+@JavaScript("pivottable/dist/export_renderers.js")
 @JavaScript("./pivot_connector.js")
 @CssImport("./lumo-pivot.css")
 /**
@@ -81,7 +81,7 @@ public class PivotTable extends Composite<Div> {
         public static final String LINE_CHART = "Line Chart";
         public static final String AREA_CHART = "Area Chart";
         public static final String SCATTER_CHART = "Scatter Chart";
-        public static final String TREEMAP = "Treemap";
+        public static final String TSV_EXPORT = "TSV Export";
     }
 
     /**

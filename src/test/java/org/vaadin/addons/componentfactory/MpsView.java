@@ -87,7 +87,8 @@ public class MpsView extends Div {
         File file = null;
         String json = null;
         try {
-            file = new File(MpsView.class.getClassLoader().getResource("mps.json").getFile());
+            file = new File(MpsView.class.getClassLoader()
+                    .getResource("mps.json").getFile());
             Path path = Path.of(file.getPath());
             json = Files.readString(path);
         } catch (IOException e) {
@@ -97,13 +98,15 @@ public class MpsView extends Div {
         JsonPivotData pivotData = new JsonPivotData(json);
 
         PivotOptions pivotOptions = new PivotOptions();
-        pivotOptions.setRows("Party","Gender");
+        pivotOptions.setRows("Party", "Gender");
         pivotOptions.setCols("Province");
         pivotOptions.setRenderer(Renderer.BAR_CHART);
         pivotOptions.setCharts(true);
         pivotOptions.setFieldsDisabled(true);
 
-        pivotOptions.setDisabledRenderers(Renderer.TREEMAP, Renderer.SCATTER_CHART);
+        pivotOptions.setDisabledRenderers(Renderer.HORIZONTAL_BAR_CHART,
+                Renderer.HORIZONTAL_STACKED_BAR_CHART, Renderer.SCATTER_CHART,
+                Renderer.AREA_CHART, Renderer.LINE_CHART);
 
         PivotTable table = new PivotTable(pivotData, pivotOptions,
                 PivotMode.INTERACTIVE);
