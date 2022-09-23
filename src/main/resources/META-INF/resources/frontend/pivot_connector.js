@@ -7,40 +7,53 @@ window.drawPivot = function(id, dataJson, optionsJson) {
 	$("#"+id).pivot(dj, oj);
 }
 
-window.drawPivotUI = function(id, dataJson, optionsJson, renderer, disabled) {
-	let dj = $.parseJSON(dataJson);
-	let oj = $.parseJSON(optionsJson);
-	$("#"+id).pivotUI(dj, oj);	
-    setupPivotPopupDragging();
-    if (disabled) {
-		disableFields(id);
-	}
-    if (renderer) {
-	    const rendererSelect = $("#"+id).find(".pvtRenderer");
-		rendererSelect.value = renderer;
-		rendererSelect.dispatchEvent(new Event("change"));
+window.drawPivotUI = function(id, dataJson, optionsJson, renderer, aggregator, column, disabled) {
+  let dj = $.parseJSON(dataJson);
+  let oj = $.parseJSON(optionsJson);
+  $("#"+id).pivotUI(dj, oj);	
+  setupPivotPopupDragging();
+  if (disabled) {
+    disableFields(id);
+  }
+  if (renderer) {
+    $("#"+id).find(".pvtRenderer").val(renderer);
+  }
+  if (aggregator) {
+    $("#"+id).find(".pvtAggregator").val(aggregator);
+    if (column) {
+      $("#"+id).find(".pvtAttrDropdown").val(column);
     }
+  }
 }
 
-window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, renderer, disabled) {
-    var renderers = $.extend(
-       $.pivotUtilities.renderers,
-       $.pivotUtilities.c3_renderers,
-	   $.pivotUtilities.export_renderers
-    )
-	let dj = $.parseJSON(dataJson);
-	const cs = cols.split(",");
-	const rs = rows.split(",");
-	$("#"+id).pivotUI(dj, { cols: cs, rows: rs, renderers: renderers }, true);
-    setupPivotPopupDragging(id);
+window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, renderer, aggregator, column, disabled) {
+  var renderers = $.extend(
+     $.pivotUtilities.renderers,
+     $.pivotUtilities.c3_renderers,
+     $.pivotUtilities.export_renderers
+  )
+  let dj = $.parseJSON(dataJson);
+  const cs = cols.split(",");
+  const rs = rows.split(",");
+  $("#"+id).pivotUI(dj, { cols: cs, rows: rs, renderers: renderers }, true);
+  setupPivotPopupDragging(id);
     if (renderer) {
-	    $("#"+id).find(".pvtRenderer").val(renderer);
+      $("#"+id).find(".pvtRenderer").val(renderer);
+    }
+    if (aggregator) {
+      $("#"+id).find(".pvtAggregator").val(aggregator);
+      if (column) {
+	    setTimeout(() => { 
+          $("#"+id).find(".pvtAttrDropdown").val(column);
+          $("#"+id).find(".pvtAttrDropdown").trigger("change");
+        }, 100);
+	  }
     }
     if (disabled) {
-		disableFields(id);
+	  disableFields(id);
 	}
 	if (disabledRenderers) {
-		disableRenderers(id, disabledRenderers);
+	  disableRenderers(id, disabledRenderers);
 	}
 }
 

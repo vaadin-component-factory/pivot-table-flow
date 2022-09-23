@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>pivottable-flow</artifactId>
-    <version>0.7.0</version>
+    <version>0.8.0</version>
     <name>PivotTable for Vaadin</name>
     <description>Flow integration of pivottable.js</description>
 

@@ -85,6 +85,25 @@ public class PivotTable extends Composite<Div> {
     }
 
     /**
+     * Utility helpers for valid renderer strings.
+     */
+    public final class Aggregator {
+        public static final String COUNT = "Count";
+        public static final String COUNT_UNIQUE_VALUES = "Count Unique Values";
+        public static final String LIST_UNIQUE_VALUES = "List Unique Values";
+        public static final String SUM = "Sum";
+        public static final String INTEGER_SUM = "Integer Sum";
+        public static final String AVERAGE = "Average";
+        public static final String MEDIAN = "Median";
+        public static final String SAMPLE_VARIANCE = "Sample Variance";
+        public static final String SAMPLE_STANDARD_DEVIATION = "Sample Standard Deviation";
+        public static final String MINIMUM = "Minimum";
+        public static final String MAXIMUM = "Maximum";
+        public static final String FIRST = "First";
+        public static final String LAST = "Last";
+    }
+
+    /**
      * Options for PivotTable
      */
     public static class PivotOptions implements Serializable {
@@ -92,6 +111,8 @@ public class PivotTable extends Composite<Div> {
         List<String> rows;
         List<String> disabledRerenders;
         String renderer;
+        String aggregator;
+        String column;
         boolean charts;
         boolean fieldsDisabled;
 
@@ -135,10 +156,26 @@ public class PivotTable extends Composite<Div> {
          *
          * @see Renderer
          *
-         * @param renderer The renderer name.
+         * @param renderer
+         *            The renderer name.
          */
         public void setRenderer(String renderer) {
             this.renderer = renderer;
+        }
+
+        /**
+         * Set the default aggregator.
+         *
+         * @see Aggregator
+         *
+         * @param aggregator
+         *            The aggregator name.
+         * @param column
+         *            The column name. Can be null.
+         */
+        public void setAggregator(String aggregator, String column) {
+            this.aggregator = aggregator;
+            this.column = column;
         }
 
         /**
@@ -366,13 +403,16 @@ public class PivotTable extends Composite<Div> {
                                 .collect(Collectors.joining(","))
                         : null;
                 event.getUI().getPage().executeJs(
-                        "window.drawChartPivotUI($0, $1, $2, $3, $4, $5, $6);",
+                        "window.drawChartPivotUI($0, $1, $2, $3, $4, $5, $6, $7, $8);",
                         id, dataJson, cols, rows, disabledRenderers,
-                        options.renderer, options.fieldsDisabled);
+                        options.renderer, options.aggregator, options.column,
+                        options.fieldsDisabled);
             } else {
                 event.getUI().getPage().executeJs(
-                        "window.drawPivotUI($0, $1, $2, $3, $4);", id, dataJson,
-                        optionsJson, options.renderer, options.fieldsDisabled);
+                        "window.drawPivotUI($0, $1, $2, $3, $4, $5, $6);", id,
+                        dataJson, optionsJson, options.renderer,
+                        options.aggregator, options.column,
+                        options.fieldsDisabled);
             }
         } else {
             event.getUI().getPage().executeJs("window.drawPivot($0, $1, $2);",

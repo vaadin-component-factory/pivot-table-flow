@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import org.vaadin.addons.componentfactory.PivotTable.Aggregator;
 import org.vaadin.addons.componentfactory.PivotTable.BeanPivotData;
 import org.vaadin.addons.componentfactory.PivotTable.JsonPivotData;
 import org.vaadin.addons.componentfactory.PivotTable.PivotData;
@@ -103,6 +104,7 @@ public class MpsView extends Div {
         pivotOptions.setRenderer(Renderer.BAR_CHART);
         pivotOptions.setCharts(true);
         pivotOptions.setFieldsDisabled(true);
+        pivotOptions.setAggregator(Aggregator.MINIMUM, "Age");
 
         pivotOptions.setDisabledRenderers(Renderer.HORIZONTAL_BAR_CHART,
                 Renderer.HORIZONTAL_STACKED_BAR_CHART, Renderer.SCATTER_CHART,
