@@ -390,33 +390,28 @@ public class PivotTable extends Composite<Div> {
     @Override
     protected void onAttach(AttachEvent event) {
         super.onAttach(event);
-        if (pivotMode == PivotMode.INTERACTIVE) {
-            if (options.charts) {
-                String cols = options.cols != null
-                        ? options.cols.stream().collect(Collectors.joining(","))
-                        : null;
-                String rows = options.rows != null
-                        ? options.rows.stream().collect(Collectors.joining(","))
-                        : null;
-                String disabledRenderers = options.disabledRerenders != null
-                        ? options.disabledRerenders.stream()
-                                .collect(Collectors.joining(","))
-                        : null;
-                event.getUI().getPage().executeJs(
-                        "window.drawChartPivotUI($0, $1, $2, $3, $4, $5, $6, $7, $8);",
-                        id, dataJson, cols, rows, disabledRenderers,
-                        options.renderer, options.aggregator, options.column,
-                        options.fieldsDisabled);
-            } else {
-                event.getUI().getPage().executeJs(
-                        "window.drawPivotUI($0, $1, $2, $3, $4, $5, $6);", id,
-                        dataJson, optionsJson, options.renderer,
-                        options.aggregator, options.column,
-                        options.fieldsDisabled);
-            }
+        if (options.charts) {
+            String cols = options.cols != null
+                    ? options.cols.stream().collect(Collectors.joining(","))
+                    : null;
+            String rows = options.rows != null
+                    ? options.rows.stream().collect(Collectors.joining(","))
+                    : null;
+            String disabledRenderers = options.disabledRerenders != null
+                    ? options.disabledRerenders.stream()
+                            .collect(Collectors.joining(","))
+                    : null;
+            event.getUI().getPage().executeJs(
+                    "window.drawChartPivotUI($0, $1, $2, $3, $4, $5, $6, $7, $8, $9);",
+                    id, dataJson, cols, rows, disabledRenderers,
+                    options.renderer, options.aggregator, options.column,
+                    options.fieldsDisabled, pivotMode != PivotMode.INTERACTIVE);
         } else {
-            event.getUI().getPage().executeJs("window.drawPivot($0, $1, $2);",
-                    id, dataJson, optionsJson);
+            event.getUI().getPage().executeJs(
+                    "window.drawPivotUI($0, $1, $2, $3, $4, $5, $6);", id,
+                    dataJson, optionsJson, options.renderer, options.aggregator,
+                    options.column, options.fieldsDisabled,
+                    pivotMode != PivotMode.INTERACTIVE);
         }
     }
 

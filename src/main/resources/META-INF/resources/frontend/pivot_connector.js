@@ -1,13 +1,7 @@
 import $ from "jquery";
 import "pivottable/dist/pivot.js";
 
-window.drawPivot = function(id, dataJson, optionsJson) {
-	let dj = $.parseJSON(dataJson);
-	let oj = $.parseJSON(optionsJson);
-	$("#"+id).pivot(dj, oj);
-}
-
-window.drawPivotUI = function(id, dataJson, optionsJson, renderer, aggregator, column, disabled) {
+window.drawPivotUI = function(id, dataJson, optionsJson, renderer, aggregator, column, disabled, noui) {
   let dj = $.parseJSON(dataJson);
   let oj = $.parseJSON(optionsJson);
   $("#"+id).pivotUI(dj, oj);	
@@ -18,18 +12,13 @@ window.drawPivotUI = function(id, dataJson, optionsJson, renderer, aggregator, c
   if (renderer) {
     $("#"+id).find(".pvtRenderer").val(renderer);
   }
-  if (aggregator) {
-    $("#"+id).find(".pvtAggregator").val(aggregator);
-    if (column) {
-	    setTimeout(() => { 
-          $("#"+id).find(".pvtAttrDropdown").val(column);
-          $("#"+id).find(".pvtAttrDropdown").trigger("change");
-        }, 100);
-    }
+  setAggregator(id, aggregator, column);
+  if (noui) {
+    disableUI(id);
   }
 }
 
-window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, renderer, aggregator, column, disabled) {
+window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, renderer, aggregator, column, disabled, noui) {
   var renderers = $.extend(
      $.pivotUtilities.renderers,
      $.pivotUtilities.c3_renderers,
@@ -40,24 +29,35 @@ window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, 
   const rs = rows.split(",");
   $("#"+id).pivotUI(dj, { cols: cs, rows: rs, renderers: renderers }, true);
   setupPivotPopupDragging(id);
-    if (renderer) {
-      $("#"+id).find(".pvtRenderer").val(renderer);
-    }
-    if (aggregator) {
-      $("#"+id).find(".pvtAggregator").val(aggregator);
-      if (column) {
-	    setTimeout(() => { 
-          $("#"+id).find(".pvtAttrDropdown").val(column);
-          $("#"+id).find(".pvtAttrDropdown").trigger("change");
+  if (renderer) {
+    $("#"+id).find(".pvtRenderer").val(renderer);
+  }
+  setAggregator(id, aggregator, column);
+  if (disabled) {
+    disableFields(id);
+  }
+  if (disabledRenderers) {
+    disableRenderers(id, disabledRenderers);
+  }
+  if (noui) {
+    disableUI(id);
+  }
+}
+
+function disableUI(id) {
+  $("#"+id).find(".pvtUiCell").css("display","none");	
+}
+
+function setAggregator(id, aggregator, column) {
+ if (aggregator) {
+    $("#"+id).find(".pvtAggregator").val(aggregator);
+    if (column) {
+      setTimeout(() => { 
+        $("#"+id).find(".pvtAttrDropdown").val(column);
+        $("#"+id).find(".pvtAttrDropdown").trigger("change");
         }, 100);
-	  }
-    }
-    if (disabled) {
-	  disableFields(id);
 	}
-	if (disabledRenderers) {
-	  disableRenderers(id, disabledRenderers);
-	}
+  }	
 }
 
 function disableRenderers(id, disabledRenderers) {
