@@ -21,7 +21,10 @@ window.drawPivotUI = function(id, dataJson, optionsJson, renderer, aggregator, c
   if (aggregator) {
     $("#"+id).find(".pvtAggregator").val(aggregator);
     if (column) {
-      $("#"+id).find(".pvtAttrDropdown").val(column);
+	    setTimeout(() => { 
+          $("#"+id).find(".pvtAttrDropdown").val(column);
+          $("#"+id).find(".pvtAttrDropdown").trigger("change");
+        }, 100);
     }
   }
 }
