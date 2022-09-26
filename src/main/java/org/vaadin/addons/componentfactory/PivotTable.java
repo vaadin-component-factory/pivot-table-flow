@@ -408,7 +408,7 @@ public class PivotTable extends Composite<Div> {
                     options.fieldsDisabled, pivotMode != PivotMode.INTERACTIVE);
         } else {
             event.getUI().getPage().executeJs(
-                    "window.drawPivotUI($0, $1, $2, $3, $4, $5, $6);", id,
+                    "window.drawPivotUI($0, $1, $2, $3, $4, $5, $6, $7);", id,
                     dataJson, optionsJson, options.renderer, options.aggregator,
                     options.column, options.fieldsDisabled,
                     pivotMode != PivotMode.INTERACTIVE);
