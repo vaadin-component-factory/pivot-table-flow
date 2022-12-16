@@ -1,5 +1,5 @@
-import $ from "jquery";
-import "pivottable/dist/pivot.js";
+//import $ from "jquery";
+//import "pivottable/dist/pivot.min.js";
 
 window.drawPivotUI = function(id, dataJson, optionsJson, renderer, aggregator, column, disabled, noui) {
   let dj = $.parseJSON(dataJson);

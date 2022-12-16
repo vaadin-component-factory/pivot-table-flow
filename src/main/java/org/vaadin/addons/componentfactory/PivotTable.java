@@ -17,6 +17,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.NpmPackage;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.binder.BeanPropertySet;
 import com.vaadin.flow.data.binder.PropertySet;
@@ -28,20 +29,15 @@ import elemental.json.impl.JreJsonArray;
 import elemental.json.impl.JreJsonFactory;
 import elemental.json.impl.JreJsonObject;
 
-@NpmPackage(value = "jquery", version = "^3.6.1")
-@NpmPackage(value = "jqueryui", version = "^1.11.1")
-@NpmPackage(value = "pivottable", version = "^2.23.0")
-@NpmPackage(value = "d3", version = "4.2.6")
-@NpmPackage(value = "c3", version = "0.5.0")
-@CssImport("c3/c3.min.css")
-@CssImport("pivottable/dist/pivot.css")
-@JavaScript("jquery/dist/jquery.min.js")
-@JavaScript("jqueryui/jquery-ui.min.js")
-@JavaScript("d3/build/d3.min.js")
-@JavaScript("c3/c3.min.js")
-@JavaScript("pivottable/dist/pivot.js")
-@JavaScript("pivottable/dist/c3_renderers.js")
-@JavaScript("pivottable/dist/export_renderers.js")
+@StyleSheet("context://c3/c3.min.css")
+@StyleSheet("context://pivottable/dist/pivot.css")
+@JavaScript("context://jquery/dist/jquery.min.js")
+@JavaScript("context://jqueryui/jquery-ui.min.js")
+@JavaScript("context://d3/build/d3.min.js")
+@JavaScript("context://c3/c3.min.js")
+@JavaScript("context://pivottable/dist/pivot.min.js")
+@JavaScript("context://pivottable/dist/c3_renderers.min.js")
+@JavaScript("context://pivottable/dist/export_renderers.min.js")
 @JavaScript("./pivot_connector.js")
 @CssImport("./lumo-pivot.css")
 /**

@@ -13,7 +13,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
 
-@Route("bean")
+@Route(value = "bean", layout = MainView.class)
 public class BeanPivotView extends Div {
 
     public enum Fill {
