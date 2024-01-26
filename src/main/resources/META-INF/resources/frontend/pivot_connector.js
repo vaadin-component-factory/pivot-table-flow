@@ -4,8 +4,10 @@
 window.drawPivotUI = function(id, dataJson, optionsJson, renderer, aggregator, column, disabled, noui) {
   let dj = $.parseJSON(dataJson);
   let oj = $.parseJSON(optionsJson);
-  $("#"+id).pivotUI(dj, oj);	
+  const table = $("#"+id);
+  table.pivotUI(dj, { onRefresh: function() { table.get(0).dispatchEvent(new CustomEvent("pivot-refreshed")) }, ...oj } );	
   setupPivotPopupDragging();
+  patchKeynav(id);
   if (disabled) {
     disableFields(id);
   }
@@ -27,8 +29,10 @@ window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, 
   let dj = $.parseJSON(dataJson);
   const cs = cols.split(",");
   const rs = rows.split(",");
-  $("#"+id).pivotUI(dj, { cols: cs, rows: rs, renderers: renderers }, true);
+  const table = $("#"+id);
+  table.pivotUI(dj, { onRefresh: function() { table.get(0).dispatchEvent(new CustomEvent("pivot-refreshed")) }, cols: cs, rows: rs, renderers: renderers }, true);
   setupPivotPopupDragging(id);
+  patchKeynav(id);
   if (renderer) {
     $("#"+id).find(".pvtRenderer").val(renderer);
   }
@@ -42,6 +46,58 @@ window.drawChartPivotUI = function(id, dataJson, cols, rows, disabledRenderers, 
   if (noui) {
     disableUI(id);
   }
+}
+
+window.getPivotTableResult = function(id) {
+  const table = $("#"+id).find(".pvtTable");
+
+  var data = "{}";  
+  if (table) {
+    data = table.tableToJSON();
+  }
+
+  return data;
+}
+
+window.setPivotTableI18n = function(id, i18nJson) {
+  const i18n = $.parseJSON(i18nJson);
+  const renderer = $("#"+id).find(".pvtRenderer");
+  const aggregator = $("#"+id).find(".pvtAggregator");
+  for (let i=0;i<i18n.length;i++) {
+    renderer.find("[value='"+i18n[i].key+"']").text(i18n[i].text);
+    aggregator.find("[value='"+i18n[i].key+"']").text(i18n[i].text);
+  }	
+}
+
+function patchKeynav(id) {
+  const buttons = $("#"+id).find(".pvtAttr");
+  for (let i=0;i<buttons.length;i++) {
+	const button = buttons[i];
+	button.setAttribute("tabindex", "0");
+	button.addEventListener("keydown", (e) => { if ( [13,32].includes(e.keyCode)) { button.children[0].click() } });
+	button.children[0].addEventListener("click", (e) => {
+      const popups = $("#"+id).find(".pvtFilterBox");
+      for (let j=0;j<popups.length;j++) {
+		 if (popups[j].checkVisibility()) popups[j].focus();
+      }
+	});
+  }
+  
+  const btns = $("#"+id).find("button");
+  for (let i=0;i<btns.length;i++) {
+	btns[i].setAttribute("tabindex", "0");
+  }
+  const inputs = $("#"+id).find("input");
+  for (let i=0;i<inputs.length;i++) {
+	inputs[i].setAttribute("tabindex", "0");
+  }
+  const popups = $("#"+id).find(".pvtFilterBox");
+  for (let i=0;i<popups.length;i++) {
+	const popup = popups[i];
+	popup.setAttribute("tabindex", "0");
+    popup.addEventListener("keydown", (e) => { if (e.keyCode == 27) { popup.getElementsByTagName("button")[1].click() } });
+  }
+
 }
 
 function disableUI(id) {
@@ -72,6 +128,7 @@ function disableFields(id) {
     const elements = $("#"+id).find(".ui-sortable-handle");
     for (let i=0;i<elements.length;i++) {
 		elements[i].style.pointerEvents = "none";
+		elements[i].children[0].removeAttribute("tabindex");
 		elements[i].getElementsByClassName("pvtTriangle")[0].style.display = "none";
 	}
 }
@@ -85,6 +142,7 @@ function setupPivotPopupDragging(id) {
 
 function dragPivotPopup(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  elmnt.setAttribute("popup","");
   const element = elmnt.getElementsByTagName("h4")[0];
   element.onmousedown = dragMouseDown;
 

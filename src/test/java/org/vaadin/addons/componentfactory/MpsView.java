@@ -16,6 +16,7 @@ import org.vaadin.addons.componentfactory.PivotTable.PivotMode;
 import org.vaadin.addons.componentfactory.PivotTable.PivotOptions;
 import org.vaadin.addons.componentfactory.PivotTable.Renderer;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;

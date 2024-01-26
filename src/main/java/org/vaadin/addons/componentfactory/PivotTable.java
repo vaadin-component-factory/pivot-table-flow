@@ -8,27 +8,34 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.DomEvent;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JavaScript;
-import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.binder.BeanPropertySet;
 import com.vaadin.flow.data.binder.PropertySet;
+import com.vaadin.flow.function.SerializableConsumer;
 import com.vaadin.flow.internal.JsonSerializer;
+import com.vaadin.flow.shared.Registration;
 
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
+import elemental.json.JsonValue;
 import elemental.json.impl.JreJsonArray;
 import elemental.json.impl.JreJsonFactory;
 import elemental.json.impl.JreJsonObject;
 
+@SuppressWarnings("serial")
 @StyleSheet("context://c3/c3.min.css")
 @StyleSheet("context://pivottable/dist/pivot.css")
 @JavaScript("context://jquery/dist/jquery.min.js")
@@ -38,6 +45,7 @@ import elemental.json.impl.JreJsonObject;
 @JavaScript("context://pivottable/dist/pivot.min.js")
 @JavaScript("context://pivottable/dist/c3_renderers.min.js")
 @JavaScript("context://pivottable/dist/export_renderers.min.js")
+@JavaScript("context://tabletojson/lib/jquery.tabletojson.min.js")
 @JavaScript("./pivot_connector.js")
 @CssImport("./lumo-pivot.css")
 /**
@@ -53,6 +61,7 @@ public class PivotTable extends Composite<Div> {
     private Random rand = new Random();
     private String id;
     private PivotOptions options;
+    private PivotTableI18n i18n;
 
     /**
      * The mode, PivotMode.INTERACTIVE renders with Pivot UI.
@@ -97,6 +106,15 @@ public class PivotTable extends Composite<Div> {
         public static final String MAXIMUM = "Maximum";
         public static final String FIRST = "First";
         public static final String LAST = "Last";
+        public static final String SUM_OVER_SUM = "Sum over Sum";
+        public static final String UPPER_BOUND = "80% Upper Bound";
+        public static final String LOWER_BOUND = "80% Lower Bound";
+        public static final String SUM_FRACTION_OF_TOTAL = "Sum as Fraction of Total";
+        public static final String SUM_FRACTION_OF_ROWS = "Sum as Fraction of Rows";
+        public static final String SUM_FRACTION_OF_COLS = "Sum as Fraction of Columns";
+        public static final String COUNT_FRACTION_OF_TOTAL = "Count as Fraction of Total";
+        public static final String COUNT_FRACTION_OF_ROWS = "Count as Fraction of Rows";
+        public static final String COUNT_FRACTION_OF_COLS = "Count as Fraction of Columns";
     }
 
     /**
@@ -411,10 +429,99 @@ public class PivotTable extends Composite<Div> {
         }
     }
 
+    /**
+     * Fecth the current table result as Json. The result will be empty array if
+     * the renderer is not a Table type.
+     * 
+     * @param callback
+     *            Lambda function to be executed, gets fetched JsonValue as
+     *            parameter.
+     */
+    public void fetchResult(SerializableConsumer<JsonValue> callback) {
+        Objects.requireNonNull(callback,
+                "Url consumer callback should not be null.");
+        getElement().executeJs("return window.getPivotTableResult($0);", id)
+                .then(urlString -> {
+                    callback.accept(urlString);
+                });
+    }
+
     private String randomId(int chars) {
-        int limit = (10 * chars) - 1;
+        int limit = (int) (Math.pow(10, chars) - 1);
         String key = "" + rand.nextInt(limit);
         key = String.format("%" + chars + "s", key).replace(' ', '0');
         return "pivot-" + key;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Registration addPivotReftreshedListener(
+            ComponentEventListener<PivotRefreshedEvent<PivotTable>> listener) {
+        return addListener(PivotRefreshedEvent.class,
+                (ComponentEventListener) listener);
+    }
+
+    @DomEvent("pivot-refreshed")
+    public static class PivotRefreshedEvent<R extends PivotTable>
+            extends ComponentEvent<PivotTable> {
+
+        public PivotRefreshedEvent(PivotTable source, boolean fromClient) {
+            super(source, fromClient);
+        }
+
+    }
+
+    /**
+     * Set new i18n object in use and send values to client.
+     * 
+     * @param i18n
+     *            The PivotTableI18n object.
+     */
+    public void setI18n(PivotTableI18n i18n) {
+        this.i18n = i18n;
+        getElement().executeJs("window.setPivotTableI18n($0, $1);", id,
+                i18n.toJson());
+    }
+
+    /**
+     * Get the localization object.
+     * 
+     * @return PivotTableI18n
+     */
+    public PivotTableI18n getI18n() {
+        return i18n;
+    }
+
+    /**
+     * Localization object for the PivotTable
+     */
+    public static class PivotTableI18n implements Serializable {
+        Map<String, String> texts;
+
+        /**
+         * Constructor. Use String constants from Aggregator and Renderer as
+         * keys.
+         * 
+         * @param texts
+         *            Map of texts.
+         */
+        public PivotTableI18n(Map<String, String> texts) {
+            Objects.requireNonNull(texts,
+                    "Map of localized texts cannot be null");
+            this.texts = texts;
+        }
+
+        String toJson() {
+            JreJsonFactory factory = new JreJsonFactory();
+            JsonArray textArray = new JreJsonArray(factory);
+            AtomicInteger i = new AtomicInteger(0);
+            texts.forEach((key, text) -> {
+                JsonObject textObj = new JreJsonObject(factory);
+                textObj.put("key", key);
+                textObj.put("text", text);
+                textArray.set(i.get(), textObj);
+                i.incrementAndGet();
+            });
+            return textArray.toJson();
+        }
     }
 }

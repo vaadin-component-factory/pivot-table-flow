@@ -11,6 +11,8 @@ import org.vaadin.addons.componentfactory.PivotTable.PivotOptions;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "bean", layout = MainView.class)
@@ -108,7 +110,15 @@ public class BeanPivotView extends Div {
             }
         });
 
-        add(button, table);
+        TextArea textArea = new TextArea();
+        textArea.setWidthFull();
+        
+        table.addPivotReftreshedListener(e -> {
+            Notification.show("Refreshed");
+            table.fetchResult(res -> textArea.setValue(res.toJson()));
+        });
+
+        add(button, table, textArea);
     }
 
 }

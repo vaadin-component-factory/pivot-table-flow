@@ -14,7 +14,8 @@ public class MainView extends AppLayout implements AppShellConfigurator {
         menu.add(new RouterLink("Basic pivot", PivotView.class),
                 new RouterLink("Bean list", BeanPivotView.class),
                 new RouterLink("Selected renderers", MpsView.class),
-                new RouterLink("Two pivots", TwoPivotsView.class));
+                new RouterLink("Two pivots", TwoPivotsView.class),
+                new RouterLink("Localization (Fi)", I18nView.class));
         addToDrawer(menu);
     }
 }

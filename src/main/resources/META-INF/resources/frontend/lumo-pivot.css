@@ -17,33 +17,35 @@
     border: none;
     margin: 3px;
 }
-
-span.pvtAttr {
+ 	
+.pvtAxisContainer li.ui-sortable-handle > span.pvtAttr {
 	--lumo-button-size: var(--lumo-size-m);
     min-width: calc(var(--lumo-button-size) * 2);
     height: var(--lumo-button-size);
-    padding: 0 calc(var(--lumo-button-size) / 3 + var(--lumo-border-radius-m) / 2);
+    padding: var(--lumo-space-xs) var(--lumo-space-s);
     margin: var(--lumo-space-xs) 0;
     box-sizing: border-box;
     font-family: var(--lumo-font-family);
     font-size: var(--lumo-font-size-m);
     font-weight: 500;
     color: var(--_lumo-button-color, var(--lumo-primary-text-color));
-    background-color: var(--_lumo-button-background-color, var(--lumo-contrast-5pct));
+    background: var(--_lumo-button-background-color, var(--lumo-contrast-5pct));
     border-radius: var(--lumo-border-radius-m);
     cursor: var(--lumo-clickable-cursor);
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
 }
 
-.pvtAxisContainer {
+.pvtUi .pvtAxisContainer {
 	background: var(--lumo-contrast-5pct);
     border-radius: var(--lumo-border-radius-m);
+    border: 1px solid var(--lumo-contrast-30pct);
 }
 
-.pvtVals {
+.pvtUi .pvtVals {
 	background: var(--lumo-contrast-5pct);
     border-radius: var(--lumo-border-radius-m);
+    border: 1px solid var(--lumo-contrast-30pct);
     text-align: left;
 }
 
@@ -59,12 +61,26 @@ span.pvtAttr {
     color: var(--lumo-body-text-color);
 }
 
-.pvtTable thead tr th {
-	background-color: var(--lumo-contrast-10pct) !important;
+.pvtUi table.pvtTable thead tr th {
+	background-color: var(--lumo-contrast-10pct);
+    border: 1px solid var(--lumo-contrast-40pct);
+    font-size: var(--lumo-font-size-s);	
+    padding: var(--lumo-space-xs);
 }
 
-.pvtTable tbody tr th {
-	background-color: var(--lumo-contrast-10pct) !important;
+.pvtUi table.pvtTable tbody tr th {
+	background-color: var(--lumo-contrast-10pct);
+    border: 1px solid var(--lumo-contrast-40pct);
+    font-size: var(--lumo-font-size-s);
+    padding: var(--lumo-space-xs);
+}
+
+.pvtUi table.pvtTable tbody tr td {
+    color: var(--lumo-primary-color-50pct);
+    padding: var(--lumo-space-xs);
+    font-size: var(--lumo-font-size-m);
+    background-color: var(--lumo-base-color);
+    border: 1px solid var(--lumo-contrast-40pct);
 }
 
 .pvtUi select {
@@ -97,8 +113,18 @@ span.pvtAttr {
 	cursor: move;
 }
 
-.pvtTriangle {
-    color: var(--lumo-contrast-60);
+span.pvtTriangle {
+    color: var(--lumo-contrast-5pct);
+}
+
+span.pvtTriangle::before {
+    content: var(--lumo-icons-dropdown);
+    font-family: 'lumo-icons';
+    font-size: var(--lumo-icon-size-m);
+    position: absolute;
+    line-height: 1;
+    color: var(--lumo-contrast-60pct);
+    margin-top: 2px;
 }
 
 .pvtUi select:focus-visible {
@@ -109,18 +135,17 @@ span.pvtAttr {
 .pvtSearch:focus-visible {
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     outline: unset;
-
 }
 
 .pvtUi option {
 	background: var(--lumo-base-color);
 }
 
-a.pvtRowOrder {
+a[role="button"].pvtRowOrder {
 	color: var(--lumo-primary-color);
 }
 
-a.pvtColOrder {
+a[role="button"].pvtColOrder {
 	color: var(--lumo-primary-color);
 }
 
@@ -137,20 +162,6 @@ a.pvtColOrder {
     flex: none;
 }
 
-.pvtFilter::before {
-	pointer-events: none;
-    color: transparent;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background-color: inherit;
-    transform: scale(1.4);
-    opacity: 0;
-    transition: transform 0.1s, opacity 0.8s;
-    content: '\2003';
-}
-
 .pvtFilter::after {
     pointer-events: none;
     font-family: 'lumo-icons';
@@ -165,19 +176,64 @@ a.pvtColOrder {
     opacity: 0;
 }
 
+.pvtFilter:focus-visible {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    outline: unset;	
+}
+
 span.value {
 	font-size: var(--lumo-font-size-m);
+    color: var(--lumo-body-text-color);
 }
 
 span.count {
 	font-size: var(--lumo-font-size-m);
 }
 
-.pvtFilterBox {
+.pvtFilterBox[popup] {
+    background: var(--lumo-base-color);
+    border: 1px solid var(--lumo-contrast-30pct);
     border-radius: var(--lumo-border-radius-m);
+    box-shadow: var(--lumo-box-shadow-s);
 }
 
 .pvtCheckContainer label {
 	display: flex;
 	align-items: center;
+}
+
+.pvtUi .pvtRendererArea {
+    border: 1px solid var(--lumo-contrast-30pct);
+    border-radius: var(--lumo-border-radius-m);
+    padding: 0;
+}
+
+.pvtRendererArea > textarea {
+	background: var(--lumo-contrast-10pct);
+    border-radius: var(--lumo-border-radius-m);
+    color: var(--lumo-body-text-color);
+}
+
+.pvtRendererArea > textarea:focus-visible {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    outline: unset;
+}
+
+.pvtFilterBox[popup] .count {
+    color: var(--lumo-secondary-text-color);
+    margin-left: var(--lumo-space-xs);
+}
+
+span.pvtAttr:focus-visible {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    outline: unset;
+}
+
+.pvtUi button:focus-visible {
+    box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
+    outline: unset;
+}
+
+.pvtFilterBox:focus-visible {
+    outline: unset;
 }
