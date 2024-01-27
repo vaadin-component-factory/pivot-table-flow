@@ -73,6 +73,9 @@ public class I18nView extends Div {
         texts.put(Aggregator.COUNT_FRACTION_OF_ROWS, "Määrä riveistä");
         texts.put(Aggregator.COUNT_FRACTION_OF_COLS, "Määrä sarakkeista");
 
+        texts.put("Cancel", "Peruuta");
+        texts.put("Apply", "Käytä");
+
         PivotTableI18n i18n = new PivotTableI18n(texts); 
         table.setI18n(i18n);
 

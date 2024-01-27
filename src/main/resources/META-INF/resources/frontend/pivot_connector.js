@@ -64,8 +64,20 @@ window.setPivotTableI18n = function(id, i18nJson) {
   const renderer = $("#"+id).find(".pvtRenderer");
   const aggregator = $("#"+id).find(".pvtAggregator");
   for (let i=0;i<i18n.length;i++) {
-    renderer.find("[value='"+i18n[i].key+"']").text(i18n[i].text);
-    aggregator.find("[value='"+i18n[i].key+"']").text(i18n[i].text);
+	if (["Cancel","Apply","Select All","Select None"].includes(i18n[i].key)) {
+      const btns = $("#"+id).find("button:contains('"+i18n[i].key+"')");
+      for (let j=0;j<btns.length;j++) {
+        btns[j].innerText = i18n[i].text;
+      }
+	} else if (i18n[i].key === "Filter values") {
+      const inputs = $("#"+id).find(".pvtSearch");
+      for (let j=0;j<inputs.length;j++) {
+        inputs[j].setAttribute("placeholder", i18n[i].text);
+      }
+	} else {
+      renderer.find("[value='"+i18n[i].key+"']").text(i18n[i].text);
+      aggregator.find("[value='"+i18n[i].key+"']").text(i18n[i].text);
+    }
   }	
 }
 
@@ -90,13 +102,6 @@ function patchKeynav(id) {
   const inputs = $("#"+id).find(".pvtFilter");
   for (let i=0;i<inputs.length;i++) {
 	inputs[i].setAttribute("tabindex", "0");
-	inputs[i].addEventListener("click", (e) => {
-      if (inputs[i].getAttribute("checked") === "checked") {
-        inputs[i].removeAttribute("checked");
-      } else {
-        inputs[i].setAttribute("checked", "checked");
-      }
-	});
   }
   const popups = $("#"+id).find(".pvtFilterBox");
   for (let i=0;i<popups.length;i++) {

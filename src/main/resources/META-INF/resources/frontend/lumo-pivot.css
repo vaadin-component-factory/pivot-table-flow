@@ -114,6 +114,7 @@
 }
 
 span.pvtTriangle {
+	position: relative;
     color: var(--lumo-contrast-5pct);
 }
 
@@ -156,22 +157,22 @@ input.pvtFilter {
     margin: var(--lumo-space-xs);
     position: relative;
     border-radius: var(--lumo-border-radius-s);
-    background-color: var(--lumo-primary-color);	
+    background-color: var(--lumo-contrast-20pct);
     transition: transform 0.2s cubic-bezier(0.12, 0.32, 0.54, 2), background-color 0.15s;
     line-height: 1.2;
     cursor: var(--lumo-clickable-cursor);
     flex: none;
 }
 
-input.pvtFilter:not([checked="checked"]) {
-    background-color: var(--lumo-contrast-20pct);
-}
-
-input.pvtFilter:not([checked="checked"])::before {
-    content: '';
+input.pvtFilter:checked {
+    background-color: var(--lumo-primary-color);	
 }
 
 input.pvtFilter::before {
+    content: '';
+}
+
+input.pvtFilter:checked::before {
 	pointer-events: none;
     content: var(--lumo-icons-checkmark);
     font-family: 'lumo-icons';
