@@ -87,9 +87,16 @@ function patchKeynav(id) {
   for (let i=0;i<btns.length;i++) {
 	btns[i].setAttribute("tabindex", "0");
   }
-  const inputs = $("#"+id).find("input");
+  const inputs = $("#"+id).find(".pvtFilter");
   for (let i=0;i<inputs.length;i++) {
 	inputs[i].setAttribute("tabindex", "0");
+	inputs[i].addEventListener("click", (e) => {
+      if (inputs[i].getAttribute("checked") === "checked") {
+        inputs[i].removeAttribute("checked");
+      } else {
+        inputs[i].setAttribute("checked", "checked");
+      }
+	});
   }
   const popups = $("#"+id).find(".pvtFilterBox");
   for (let i=0;i<popups.length;i++) {
