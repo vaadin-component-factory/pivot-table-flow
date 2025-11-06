@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.AttachEvent;
@@ -25,15 +24,12 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.data.binder.BeanPropertySet;
 import com.vaadin.flow.data.binder.PropertySet;
 import com.vaadin.flow.function.SerializableConsumer;
-import com.vaadin.flow.internal.JsonSerializer;
 import com.vaadin.flow.shared.Registration;
 
-import elemental.json.JsonArray;
-import elemental.json.JsonObject;
-import elemental.json.JsonValue;
-import elemental.json.impl.JreJsonArray;
-import elemental.json.impl.JreJsonFactory;
-import elemental.json.impl.JreJsonObject;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 
 @SuppressWarnings("serial")
 @StyleSheet("context://c3/c3.min.css")
@@ -212,16 +208,18 @@ public class PivotTable extends Composite<Div> {
             this.charts = charts;
         }
 
-        JsonObject toJson() {
-            JreJsonFactory factory = new JreJsonFactory();
-            JsonObject object = new JreJsonObject(factory);
+        String toJson() {
+            ObjectMapper mapper = PivotTable.MAPPER;
+            ObjectNode object = mapper.createObjectNode();
             if (cols != null) {
-                object.put("cols", JsonSerializer.toJson(cols));
+                ArrayNode colsArray = object.putArray("cols");
+                cols.forEach(colsArray::add);
             }
             if (rows != null) {
-                object.put("rows", JsonSerializer.toJson(rows));
+                ArrayNode rowsArray = object.putArray("rows");
+                rows.forEach(rowsArray::add);
             }
-            return object;
+            return object.toString();
         }
     }
 
@@ -265,29 +263,30 @@ public class PivotTable extends Composite<Div> {
         }
 
         String toJson() {
-            JreJsonFactory factory = new JreJsonFactory();
-            JsonArray array = new JreJsonArray(factory);
-            AtomicInteger i = new AtomicInteger(0);
+            ObjectMapper mapper = PivotTable.MAPPER;
+            ArrayNode array = mapper.createArrayNode();
             rows.forEach(row -> {
-                JsonObject obj = new JreJsonObject(factory);
+                ObjectNode obj = mapper.createObjectNode();
                 columns.forEach((name, type) -> {
-                    if (type.isAssignableFrom(Boolean.class)) {
-                        obj.put(name, (Boolean) row.get(name));
+                    Object value = row.get(name);
+                    if (value == null) {
+                        obj.putNull(name);
+                    } else if (type.isAssignableFrom(Boolean.class)) {
+                        obj.put(name, (Boolean) value);
                     } else if (type.isAssignableFrom(Double.class)) {
-                        obj.put(name, (Double) row.get(name));
+                        obj.put(name, (Double) value);
                     } else if (type.isAssignableFrom(Integer.class)) {
-                        obj.put(name, (Double) Double
-                                .valueOf((Integer) row.get(name)));
+                        // original logic converted Integer to Double
+                        obj.put(name, Double.valueOf((Integer) value));
                     } else if (type.isAssignableFrom(String.class)) {
-                        obj.put(name, (String) row.get(name).toString());
+                        obj.put(name, value.toString());
                     } else {
-                        obj.put(name, (String) row.get(name).toString());
+                        obj.put(name, value.toString());
                     }
                 });
-                array.set(i.get(), obj);
-                i.incrementAndGet();
+                array.add(obj);
             });
-            return array.toJson();
+            return array.toString();
         }
     }
 
@@ -395,10 +394,10 @@ public class PivotTable extends Composite<Div> {
         this.pivotMode = mode;
         id = randomId(10);
         setId(id);
-        JsonObject optionsArray = pivotOptions.toJson();
+        String optionsArray = pivotOptions.toJson();
         this.options = pivotOptions;
         this.dataJson = pivotData.toJson();
-        this.optionsJson = optionsArray.toJson();
+        this.optionsJson = optionsArray;
     }
 
     @Override
@@ -437,13 +436,11 @@ public class PivotTable extends Composite<Div> {
      *            Lambda function to be executed, gets fetched JsonValue as
      *            parameter.
      */
-    public void fetchResult(SerializableConsumer<JsonValue> callback) {
+    public void fetchResult(SerializableConsumer<JsonNode> callback) {
         Objects.requireNonNull(callback,
                 "Url consumer callback should not be null.");
         getElement().executeJs("return window.getPivotTableResult($0);", id)
-                .then(urlString -> {
-                    callback.accept(urlString);
-                });
+                .then(callback::accept);
     }
 
     private String randomId(int chars) {
@@ -511,17 +508,18 @@ public class PivotTable extends Composite<Div> {
         }
 
         String toJson() {
-            JreJsonFactory factory = new JreJsonFactory();
-            JsonArray textArray = new JreJsonArray(factory);
-            AtomicInteger i = new AtomicInteger(0);
+            ObjectMapper mapper = PivotTable.MAPPER;
+            ArrayNode textArray = mapper.createArrayNode();
             texts.forEach((key, text) -> {
-                JsonObject textObj = new JreJsonObject(factory);
+                ObjectNode textObj = mapper.createObjectNode();
                 textObj.put("key", key);
                 textObj.put("text", text);
-                textArray.set(i.get(), textObj);
-                i.incrementAndGet();
+                textArray.add(textObj);
             });
-            return textArray.toJson();
+            return textArray.toString();
         }
     }
+
+    // Central ObjectMapper instance (Jackson 3)
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 }

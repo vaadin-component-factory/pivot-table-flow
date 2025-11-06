@@ -6,15 +6,17 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>pivottable-flow</artifactId>
-    <version>2.1.2</version>
+    <version>3.0.0</version>
     <name>PivotTable for Vaadin</name>
     <description>Flow integration of pivottable.js</description>
+    <packaging>jar</packaging>
 
     <properties>
-        <vaadin.version>23.3.30</vaadin.version>
+        <vaadin.version>25.0.0-beta4</vaadin.version>
 
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8
         </project.reporting.outputEncoding>
@@ -108,15 +110,28 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>3.8.1</version>
+            <version>6.1.0</version>
             <scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jsoup</groupId>
-					<artifactId>jsoup</artifactId>
-				</exclusion>
-			</exclusions>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.docker-java</groupId>
+                    <artifactId>docker-java-transport-httpclient5</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.java.dev.jna</groupId>
+                    <artifactId>jna</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.java.dev.jna</groupId>
+                    <artifactId>jna-platform</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -142,27 +157,26 @@
             </plugin>
 
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.28.v20200408</version>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-maven-plugin</artifactId>
+                <version>12.0.15</version>
                 <configuration>
-                    <scanIntervalSeconds>3</scanIntervalSeconds>
-                    <!-- Use test scope because the UI/test classes are in
-                        the test package. -->
+                    <scan>5</scan>
+                    <stopKey>${project.artifactId}</stopKey>
+                    <stopPort>8081</stopPort>
                     <useTestScope>true</useTestScope>
                     <supportedPackagings>
                         <supportedPackaging>jar</supportedPackaging>
                     </supportedPackagings>
-                    <webAppConfig>
+                    <webApp>
                         <resourceBases>
-                            <baseResource>
-                                src/main/resources/META-INF/resources
-                            </baseResource>
-                            <baseResource>
-                                src/test/resources
-                            </baseResource>
+                            <baseResource>${project.basedir}/src/main/resources/META-INF/resources</baseResource>
+                            <baseResource>${project.basedir}/src/test/resources</baseResource>
                         </resourceBases>
-                    </webAppConfig>
+                    </webApp>
+                    <systemProperties>
+                        <vaadin.frontend.hotdeploy>true</vaadin.frontend.hotdeploy>
+                    </systemProperties>
                 </configuration>
             </plugin>
 

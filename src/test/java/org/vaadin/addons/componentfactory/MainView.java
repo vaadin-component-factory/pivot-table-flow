@@ -2,12 +2,9 @@ package org.vaadin.addons.componentfactory;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.AppShellConfigurator;
-import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.router.RouterLink;import com.vaadin.flow.theme.Theme;
 
-@Theme("mytheme")
-public class MainView extends AppLayout implements AppShellConfigurator {
+public class MainView extends AppLayout {
 
     public MainView() {
         VerticalLayout menu = new VerticalLayout();

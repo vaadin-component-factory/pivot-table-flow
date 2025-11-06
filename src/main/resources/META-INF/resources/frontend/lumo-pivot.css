@@ -1,5 +1,7 @@
-.pvtUi button {
-	--lumo-button-size: var(--lumo-size-m);
+/* Styles for Lumo */
+
+.lumo .pvtUi button {
+    --lumo-button-size: var(--lumo-size-m);
     min-width: calc(var(--lumo-button-size) * 2);
     height: var(--lumo-button-size);
     padding: 0 calc(var(--lumo-button-size) / 3 + var(--lumo-border-radius-m) / 2);
@@ -17,9 +19,9 @@
     border: none;
     margin: 3px;
 }
- 	
-.pvtAxisContainer li.ui-sortable-handle > span.pvtAttr {
-	--lumo-button-size: var(--lumo-size-m);
+
+.lumo .pvtAxisContainer li.ui-sortable-handle>span.pvtAttr {
+    --lumo-button-size: var(--lumo-size-m);
     min-width: calc(var(--lumo-button-size) * 2);
     height: var(--lumo-button-size);
     padding: var(--lumo-space-xs) var(--lumo-space-s);
@@ -36,46 +38,46 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.pvtUi .pvtAxisContainer {
-	background: var(--lumo-contrast-5pct);
+.lumo .pvtUi .pvtAxisContainer {
+    background: var(--lumo-contrast-5pct);
     border-radius: var(--lumo-border-radius-m);
     border: 1px solid var(--lumo-contrast-30pct);
 }
 
-.pvtUi .pvtVals {
-	background: var(--lumo-contrast-5pct);
+.lumo .pvtUi .pvtVals {
+    background: var(--lumo-contrast-5pct);
     border-radius: var(--lumo-border-radius-m);
     border: 1px solid var(--lumo-contrast-30pct);
     text-align: left;
 }
 
-.pvtTable {
+.lumo .pvtTable {
     font-family: var(--lumo-font-family);
     font-size: var(--lumo-font-size-m);
     color: var(--lumo-body-text-color);
 }
 
-.pvtUi {
+.lumo .pvtUi {
     font-family: var(--lumo-font-family);
     font-size: var(--lumo-font-size-m);
     color: var(--lumo-body-text-color);
 }
 
-.pvtUi table.pvtTable thead tr th {
-	background-color: var(--lumo-contrast-10pct);
-    border: 1px solid var(--lumo-contrast-40pct);
-    font-size: var(--lumo-font-size-s);	
-    padding: var(--lumo-space-xs);
-}
-
-.pvtUi table.pvtTable tbody tr th {
-	background-color: var(--lumo-contrast-10pct);
+.lumo .pvtUi table.pvtTable thead tr th {
+    background-color: var(--lumo-contrast-10pct);
     border: 1px solid var(--lumo-contrast-40pct);
     font-size: var(--lumo-font-size-s);
     padding: var(--lumo-space-xs);
 }
 
-.pvtUi table.pvtTable tbody tr td {
+.lumo .pvtUi table.pvtTable tbody tr th {
+    background-color: var(--lumo-contrast-10pct);
+    border: 1px solid var(--lumo-contrast-40pct);
+    font-size: var(--lumo-font-size-s);
+    padding: var(--lumo-space-xs);
+}
+
+.lumo .pvtUi table.pvtTable tbody tr td {
     color: var(--lumo-primary-color-50pct);
     padding: var(--lumo-space-xs);
     font-size: var(--lumo-font-size-m);
@@ -83,7 +85,7 @@
     border: 1px solid var(--lumo-contrast-40pct);
 }
 
-.pvtUi select {
+.lumo .pvtUi select {
     border-radius: var(--lumo-border-radius-m);
     background-color: var(--lumo-contrast-10pct);
     padding: 0 calc(0.375em + var(--lumo-border-radius-m) / 4 - 1px);
@@ -96,7 +98,7 @@
     width: var(--vaadin-field-default-width, 12em);
 }
 
-.pvtSearch {
+.lumo .pvtSearch {
     border-radius: var(--lumo-border-radius-m);
     background-color: var(--lumo-contrast-10pct);
     padding: 0 calc(0.375em + var(--lumo-border-radius-m) / 4 - 1px);
@@ -109,16 +111,16 @@
     width: var(--vaadin-field-default-width, 12em);
 }
 
-.pvtFilterBox h4 {
-	cursor: move;
+.lumo .pvtFilterBox h4 {
+    cursor: move;
 }
 
-span.pvtTriangle {
-	position: relative;
+.lumo span.pvtTriangle {
+    position: relative;
     color: var(--lumo-contrast-5pct);
 }
 
-span.pvtTriangle::before {
+.lumo span.pvtTriangle::before {
     content: var(--lumo-icons-dropdown);
     font-family: 'lumo-icons';
     font-size: var(--lumo-icon-size-m);
@@ -128,31 +130,31 @@ span.pvtTriangle::before {
     margin-top: 2px;
 }
 
-.pvtUi select:focus-visible {
+.lumo .pvtUi select:focus-visible {
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     outline: unset;
 }
 
-.pvtSearch:focus-visible {
+.lumo .pvtSearch:focus-visible {
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     outline: unset;
 }
 
-.pvtUi option {
-	background: var(--lumo-base-color);
+.lumo .pvtUi option {
+    background: var(--lumo-base-color);
 }
 
-a[role="button"].pvtRowOrder {
-	color: var(--lumo-primary-color);
+.lumo a[role="button"].pvtRowOrder {
+    color: var(--lumo-primary-color);
 }
 
-a[role="button"].pvtColOrder {
-	color: var(--lumo-primary-color);
+.lumo a[role="button"].pvtColOrder {
+    color: var(--lumo-primary-color);
 }
 
-input.pvtFilter {
-	appearance: none;
-	width: calc(var(--lumo-size-m) / 2);
+.lumo input.pvtFilter {
+    appearance: none;
+    width: calc(var(--lumo-size-m) / 2);
     height: calc(var(--lumo-size-m) / 2);
     margin: var(--lumo-space-xs);
     position: relative;
@@ -164,130 +166,449 @@ input.pvtFilter {
     flex: none;
 }
 
-input.pvtFilter:checked {
-    background-color: var(--lumo-primary-color);	
+.lumo input.pvtFilter:checked {
+    background-color: var(--lumo-primary-color);
 }
 
-input.pvtFilter::before {
+.lumo input.pvtFilter::before {
     content: '';
 }
 
-input.pvtFilter:checked::before {
-	pointer-events: none;
+.lumo input.pvtFilter:checked::before {
+    pointer-events: none;
     content: var(--lumo-icons-checkmark);
     font-family: 'lumo-icons';
     color: var(--lumo-primary-contrast-color);
     line-height: 1;
     contain: content;
-    font-size: calc(var( --lumo-font-size-m) + 2px);
+    font-size: calc(var(--lumo-font-size-m) + 2px);
 }
 
-.pvtFilter:focus-visible {
-	border: 1px solid var(--lumo-base-color);
+.lumo .pvtFilter:focus-visible {
+    border: 1px solid var(--lumo-base-color);
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
-    outline: unset;	
+    outline: unset;
 }
 
-span.value {
-	font-size: var(--lumo-font-size-m);
+.lumo span.value {
+    font-size: var(--lumo-font-size-m);
     color: var(--lumo-body-text-color);
 }
 
-span.count {
-	font-size: var(--lumo-font-size-m);
+.lumo span.count {
+    font-size: var(--lumo-font-size-m);
 }
 
-.pvtFilterBox[popup] {
+.lumo .pvtFilterBox[popup] {
     background: var(--lumo-base-color);
     border: 1px solid var(--lumo-contrast-30pct);
     border-radius: var(--lumo-border-radius-m);
     box-shadow: var(--lumo-box-shadow-s);
 }
 
-.pvtCheckContainer label {
-	display: flex;
-	align-items: center;
+.lumo .pvtCheckContainer label {
+    display: flex;
+    align-items: center;
 }
 
-.pvtUi .pvtRendererArea {
+.lumo .pvtUi .pvtRendererArea {
     border: 1px solid var(--lumo-contrast-30pct);
     border-radius: var(--lumo-border-radius-m);
     padding: 0;
     color: var(--lumo-body-text-color);
 }
 
-.pvtRendererArea > textarea {
-	background: var(--lumo-contrast-10pct);
+.lumo .pvtRendererArea>textarea {
+    background: var(--lumo-contrast-10pct);
     border-radius: var(--lumo-border-radius-m);
     color: var(--lumo-body-text-color);
 }
 
-.pvtRendererArea > textarea:focus-visible {
+.lumo .pvtRendererArea>textarea:focus-visible {
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     outline: unset;
 }
 
-.pvtFilterBox[popup] .count {
+.lumo .pvtFilterBox[popup] .count {
     color: var(--lumo-secondary-text-color);
     margin-left: var(--lumo-space-xs);
 }
 
-span.pvtAttr:focus-visible {
+.lumo span.pvtAttr:focus-visible {
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     outline: unset;
 }
 
-.pvtUi button:focus-visible {
+.lumo .pvtUi button:focus-visible {
     box-shadow: 0 0 0 2px var(--lumo-primary-color-50pct);
     outline: unset;
 }
 
-.pvtFilterBox:focus-visible {
+.lumo .pvtFilterBox:focus-visible {
     outline: unset;
 }
 
-.pvtUi .c3-axis {
+.lumo .pvtUi .c3-axis {
     fill: var(--lumo-body-text-color);
     font-size: calc(var(--lumo-font-size-s) * 0.8);
 }
 
-.pvtUi .c3-axis .tick > line {
+.lumo .pvtUi .c3-axis .tick>line {
     stroke: var(--lumo-contrast-30pct);
 }
 
-.pvtUi .c3-axis > .domain {
+.lumo .pvtUi .c3-axis>.domain {
     stroke: var(--lumo-contrast-30pct);
 }
 
-.pvtUi .c3-legend-item {
+.lumo .pvtUi .c3-legend-item {
     fill: var(--lumo-body-text-color);
-    font-size: calc(var(--lumo-font-size-s) * 0.8);	
+    font-size: calc(var(--lumo-font-size-s) * 0.8);
 }
 
-.pvtUi .c3-legend-item-hidden {
+.lumo .pvtUi .c3-legend-item-hidden {
     opacity: .40;
 }
 
-.pvtUi table.c3-tooltip {
+.lumo .pvtUi table.c3-tooltip {
     background-color: var(--lumo-contrast-5pct);
     color: var(--lumo-body-text-color);
     box-shadow: var(--lumo-box-shadow-s);
 }
 
-.pvtUi table.c3-tooltip td {
+.lumo .pvtUi table.c3-tooltip td {
     font-size: var(--lumo-font-size-xs);
     padding: var(--lumo-space-xs);
     background-color: var(--lumo-contrast-5pct);
     border-left: 1px dotted var(--lumo-contrast-30pct);
 }
 
-.pvtUi table.c3-tooltip tr {
+.lumo .pvtUi table.c3-tooltip tr {
     border: 1px solid var(--lumo-contrast-30pct);
 }
 
-.pvtUi table.c3-tooltip th {
+.lumo .pvtUi table.c3-tooltip th {
     background-color: var(--lumo-contrast-10pct);
     font-size: var(--lumo-font-size-s);
     padding: var(--lumo-spase-xs);
     color: var(--lumo-body-text-color);
+}
+
+/* Styles for Aura */
+
+.aura .pvtUi button {
+    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    font-family: var(--aura-font-family, inherit);
+    font-size: var(--aura-base-font-size, inherit);
+    line-height: var(--aura-base-line-height, inherit);
+    font-weight: var(--aura-font-weight-medium, 500);
+    background: linear-gradient(var(--vaadin-background-color), var(--vaadin-background-color)) var(--aura-surface) padding-box;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: var(--vaadin-button-gap);
+    cursor: var(--vaadin-clickable-cursor);
+    box-sizing: border-box;
+    vertical-align: middle;
+    color: var(--vaadin-button-text-color, var(--vaadin-text-color));
+    border: var(--vaadin-button-border-width, 1px) solid var(--vaadin-button-border-color, var(--vaadin-border-color-secondary));
+    border-radius: var(--vaadin-button-border-radius, var(--vaadin-radius-m));
+    touch-action: manipulation;
+    margin: 3px;
+    box-shadow: var(--aura-button-shadow);
+}
+
+.aura .pvtUi button:hover {
+    background: var(--aura-background-light);
+}
+
+.aura .pvtAxisContainer li.ui-sortable-handle>span.pvtAttr {
+    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    font-family: var(--aura-font-family, inherit);
+    font-size: var(--aura-base-font-size, inherit);
+    line-height: var(--aura-base-line-height, inherit);
+    font-weight: var(--aura-font-weight-medium, 500);
+    background: linear-gradient(var(--vaadin-background-color), var(--vaadin-background-color)) var(--aura-surface) padding-box;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: var(--vaadin-button-gap);
+    box-sizing: border-box;
+    vertical-align: middle;
+    color: var(--vaadin-button-text-color, var(--vaadin-text-color));
+    border: var(--vaadin-button-border-width, 1px) solid var(--vaadin-button-border-color, var(--vaadin-border-color-secondary));
+    border-radius: var(--vaadin-button-border-radius, var(--vaadin-radius-m));
+    touch-action: manipulation;
+}
+
+.aura .pvtAxisContainer li.ui-sortable-handle>span.pvtAttr:hover {
+    background: var(--aura-background-light);
+}
+
+.aura .pvtUi .pvtAxisContainer {
+    background: var(--aura-background);
+    border-radius: var(--vaadin-radius-m);
+    border: 1px solid var(--vaadin-border-color-secondary);
+}
+
+.aura .pvtUi .pvtVals {
+    background: var(--aura-background);
+    border-radius: var(--vaadin-radius-m);
+    border: 1px solid var(--vaadin-border-color-secondary);
+    text-align: left;
+}
+
+.aura .pvtFilterBox h4 {
+    cursor: move;
+}
+
+.aura span.pvtTriangle {
+    position: relative;
+    color: var(--vaadin-background-color);
+}
+
+.aura span.pvtTriangle::before {
+    content: '';
+    background-image: var(--_vaadin-icon-chevron-down);
+    display: block;
+    color: var(--vaadin-text-color);
+    height: var(--vaadin-icon-size, 1lh);
+    width: var(--vaadin-icon-size, 1lh);
+    line-height: var(--aura-line-height-m);
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.aura .pvtTable {
+    font-family: var(--aura-font-family);
+    font-size: var(--aura-base-font-size);
+    color: var(--vaadin-text-color);
+}
+
+.aura .pvtUi {
+    font-family: var(--aura-font-family);
+    font-size: var(--aura-base-font-size);
+    color: var(--vaadin-text-color);
+}
+
+.aura .pvtUi table.pvtTable thead tr th {
+    background-color: var(--aura-background);
+    border: 1px solid var(--vaadin-border-color-secondary);
+    font-size: var(--aura-base-font-size);
+    font-weight: var(--aura-font-weight-medium);
+    padding: var(--vaadin-padding-xs);
+}
+
+.aura .pvtUi table.pvtTable tbody tr th {
+    background-color: var(--aura-background);
+    border: 1px solid var(--vaadin-border-color-secondary);
+    font-size: var(--aura-base-font-size);
+    font-weight: var(--aura-font-weight-medium);
+    padding: var(--vaadin-padding-xs);
+}
+
+.aura .pvtUi table.pvtTable tbody tr td {
+    color: var(--vaadin-text-color);
+    padding: var(--vaadin-padding-xs);
+    font-size: var(--aura-base-font-size);
+    background-color: var(--vaadin-background-color);
+    border: 1px solid var(--vaadin-border-color-secondary);
+}
+
+.aura .pvtUi select {
+    border-radius: var(--vaadin-radius-m);
+    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    background: var(--vaadin-input-field-background, var(--vaadin-background-color));
+    color: var(--vaadin-input-field-value-color, var(--vaadin-text-color));
+    font-size: var(--vaadin-input-field-value-font-size, inherit);
+    line-height: var(--vaadin-input-field-value-line-height, inherit);
+    font-weight: var(--vaadin-input-field-value-font-weight, 400);
+    border: var(--vaadin-input-field-border-width, 1px) solid var(--vaadin-input-field-border-color, var(--vaadin-border-color));
+}
+
+.aura .pvtSearch {
+    border-radius: var(--vaadin-radius-m);
+    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    background: var(--vaadin-input-field-background, var(--vaadin-background-color));
+    color: var(--vaadin-input-field-value-color, var(--vaadin-text-color));
+    font-size: var(--vaadin-input-field-value-font-size, inherit);
+    line-height: var(--vaadin-input-field-value-line-height, inherit);
+    font-weight: var(--vaadin-input-field-value-font-weight, 400);
+    border: var(--vaadin-input-field-border-width, 1px) solid var(--vaadin-input-field-border-color, var(--vaadin-border-color));
+    min-height: var(--vaadin-text-field-size, var(--vaadin-size-m));
+    width: var(--vaadin-field-default-width, 12em);
+}
+
+.aura .pvtUi select:focus-visible {
+    box-shadow: 0 0 0 2px var(--vaadin-focus-ring-color);
+    outline: unset;
+}
+
+.aura .pvtSearch:focus-visible {
+    box-shadow: 0 0 0 2px var(--vaadin-focus-ring-color);
+    outline: unset;
+}
+
+.aura .pvtUi option {
+    background: var(--vaadin-input-field-background, var(--vaadin-background-color));
+    color: var(--vaadin-input-field-value-color, var(--vaadin-text-color));
+    font-size: var(--vaadin-input-field-value-font-size, inherit);
+    line-height: var(--vaadin-input-field-value-line-height, inherit);
+    font-weight: var(--vaadin-input-field-value-font-weight, 400);
+}
+
+.aura a[role="button"].pvtRowOrder {
+    color: var(--aura-blue);
+}
+
+.aura a[role="button"].pvtColOrder {
+    color: var(--aura-blue);
+}
+
+.aura input.pvtFilter {
+    appearance: none;
+    height: var(--vaadin-checkbox-size, 1lh);
+    width: var(--vaadin-checkbox-size, 1lh);
+    margin: var(--vaadin-padding-xs);
+    position: relative;
+    border: 1px solid var(--vaadin-border-color-secondary);
+    border-radius: var(--vaadin-radius-s);
+    background-color: var(--aura-background-light);
+    transition: transform 0.2s cubic-bezier(0.12, 0.32, 0.54, 2), background-color 0.15s;
+    line-height: var(--aura-line-height-m);
+    cursor: var(--vaadin-clickable-cursor);
+    flex: none;
+}
+
+.aura input.pvtFilter:checked {
+    background-color: var(--aura-accent-color);
+}
+
+.aura input.pvtFilter::before {
+    pointer-events: none;
+    display: block;
+    content: '';
+    height: calc(var(--vaadin-icon-size, 1lh) - 3px);
+    width: calc(var(--vaadin-icon-size, 1lh) - 3px);
+    line-height: var(--aura-line-height-m);
+    contain: content;
+    font-size: var(--aura-base-font-size);
+}
+
+.aura input.pvtFilter:checked::before {
+    background-image: var(--_vaadin-icon-checkmark);
+    color: var(--vaadin-background-color);
+    contain: content;
+    filter: invert(1);
+}
+
+.aura .pvtFilter:focus-visible {
+    border: 1px solid var(--vaadin-background-color);
+    box-shadow: 0 0 0 2px var(--vaadin-focus-ring-color);
+    outline: unset;
+}
+
+.aura span.value {
+    font-size: var(--aura-base-font-size);
+    color: var(--vaadin-text-color);
+}
+
+.aura span.count {
+    font-size: var(--aura-base-font-size);
+}
+
+.aura .pvtFilterBox[popup] {
+    background: color-mix(in oklab, var(--aura-surface-solid) calc(100% * 0.9), transparent);
+    border: var(--vaadin-dialog-border-width, var(--vaadin-overlay-border-width, 1px)) solid var(--vaadin-dialog-border-color, var(--vaadin-overlay-border-color, var(--vaadin-border-color-secondary)));
+    border-radius: var(--vaadin-dialog-border-radius, var(--vaadin-radius-l));
+    box-shadow: var(--aura-overlay-shadow);
+}
+
+.aura .pvtCheckContainer label {
+    display: flex;
+    align-items: center;
+}
+
+.aura .pvtUi .pvtRendererArea {
+    border: 1px solid var(--vaadin-border-color-secondary);
+    border-radius: var(--vaadin-radius-m);
+    padding: 0;
+    color: var(--vaadin-text-color);
+}
+
+.aura .pvtRendererArea>textarea {
+    background: var(--aura-background);
+    border-radius: var(--vaadin-radius-m);
+    color: var(--vaadin-text-color);
+}
+
+.aura .pvtRendererArea>textarea:focus-visible {
+    box-shadow: 0 0 0 2px var(--vaadin-focus-ring-color);
+    outline: unset;
+}
+
+.aura .pvtFilterBox[popup] .count {
+    color: var(--vaadin-text-color);
+    margin-left: var(--vaadin-padding-xs);
+}
+
+.aura span.pvtAttr:focus-visible {
+    box-shadow: 0 0 0 2px var(--vaadin-focus-ring-color);
+    outline: unset;
+}
+
+.aura .pvtUi button:focus-visible {
+    box-shadow: 0 0 0 2px var(--vaadin-focus-ring-color);
+    outline: unset;
+}
+
+.aura .pvtFilterBox:focus-visible {
+    outline: unset;
+}
+
+.aura .pvtUi .c3-axis {
+    fill: var(--vaadin-text-color);
+    font-size: calc(var(--aura-base-font-size) * 0.8);
+}
+
+.aura .pvtUi .c3-axis .tick>line {
+    stroke: var(--vaadin-border-color);
+}
+
+.aura .pvtUi .c3-axis>.domain {
+    stroke: var(--vaadin-border-color);
+}
+
+.aura .pvtUi .c3-legend-item {
+    fill: var(--vaadin-text-color);
+    font-size: calc(var(--aura-base-font-size) * 0.8);
+}
+
+.aura .pvtUi .c3-legend-item-hidden {
+    opacity: .40;
+}
+
+.aura .pvtUi table.c3-tooltip {
+    background-color: var(--aura-contrast-5pct);
+    color: var(--vaadin-text-color);
+    box-shadow: var(--aura-overlay-shadow);
+}
+
+.aura .pvtUi table.c3-tooltip td {
+    font-size: calc(var(--aura-base-font-size) * 0.75);
+    padding: var(--vaadin-padding-xs);
+    background-color: var(--aura-background-light);
+    border-left: 1px dotted var(--vaadin-border-color-secondary);
+}
+
+.aura .pvtUi table.c3-tooltip tr {
+    border: 1px solid var(--vaadin-border-color-secondary);
+}
+
+.aura .pvtUi table.c3-tooltip th {
+    background-color: var(--aura-background-light);
+    font-size: calc(var(--aura-base-font-size) * 0.85);
+    padding: var(--vaadin-padding-xs);
+    color: var(--vaadin-text-color);
 }

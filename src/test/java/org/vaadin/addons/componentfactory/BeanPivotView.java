@@ -115,7 +115,7 @@ public class BeanPivotView extends Div {
         
         table.addPivotReftreshedListener(e -> {
             Notification.show("Refreshed");
-            table.fetchResult(res -> textArea.setValue(res.toJson()));
+            table.fetchResult(res -> textArea.setValue(res.toString()));
         });
 
         add(button, table, textArea);
