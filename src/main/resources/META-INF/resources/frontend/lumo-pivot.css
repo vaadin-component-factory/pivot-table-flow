@@ -117,7 +117,7 @@
 
 .lumo span.pvtTriangle {
     position: relative;
-    color: var(--lumo-contrast-5pct);
+    color: transparent;
 }
 
 .lumo span.pvtTriangle::before {
@@ -319,7 +319,7 @@
 }
 
 .aura .pvtUi button:hover {
-    background: var(--aura-background-light);
+    background: var(--aura-background);
 }
 
 .aura .pvtAxisContainer li.ui-sortable-handle>span.pvtAttr {
@@ -342,7 +342,7 @@
 }
 
 .aura .pvtAxisContainer li.ui-sortable-handle>span.pvtAttr:hover {
-    background: var(--aura-background-light);
+    background: var(--aura-background);
 }
 
 .aura .pvtUi .pvtAxisContainer {
@@ -364,7 +364,7 @@
 
 .aura span.pvtTriangle {
     position: relative;
-    color: var(--vaadin-background-color);
+    color: transparent;
 }
 
 .aura span.pvtTriangle::before {
@@ -474,7 +474,7 @@
     position: relative;
     border: 1px solid var(--vaadin-border-color-secondary);
     border-radius: var(--vaadin-radius-s);
-    background-color: var(--aura-background-light);
+    background-color: var(--aura-background);
     transition: transform 0.2s cubic-bezier(0.12, 0.32, 0.54, 2), background-color 0.15s;
     line-height: var(--aura-line-height-m);
     cursor: var(--vaadin-clickable-cursor);
@@ -523,6 +523,7 @@
     border: var(--vaadin-dialog-border-width, var(--vaadin-overlay-border-width, 1px)) solid var(--vaadin-dialog-border-color, var(--vaadin-overlay-border-color, var(--vaadin-border-color-secondary)));
     border-radius: var(--vaadin-dialog-border-radius, var(--vaadin-radius-l));
     box-shadow: var(--aura-overlay-shadow);
+    backdrop-filter: var(--aura-overlay-backdrop-filter);
 }
 
 .aura .pvtCheckContainer label {
@@ -590,15 +591,17 @@
 }
 
 .aura .pvtUi table.c3-tooltip {
-    background-color: var(--aura-contrast-5pct);
+    background: color-mix(in oklab, var(--aura-surface-solid) calc(100% * 0.9), transparent);
     color: var(--vaadin-text-color);
     box-shadow: var(--aura-overlay-shadow);
+    border-radius: var(--vaadin-radius-s);
+    backdrop-filter: var(--aura-overlay-backdrop-filter);
 }
 
 .aura .pvtUi table.c3-tooltip td {
     font-size: calc(var(--aura-base-font-size) * 0.75);
     padding: var(--vaadin-padding-xs);
-    background-color: var(--aura-background-light);
+    background-color: var(--aura-background);
     border-left: 1px dotted var(--vaadin-border-color-secondary);
 }
 
@@ -607,7 +610,7 @@
 }
 
 .aura .pvtUi table.c3-tooltip th {
-    background-color: var(--aura-background-light);
+    background-color: var(--aura-background);
     font-size: calc(var(--aura-base-font-size) * 0.85);
     padding: var(--vaadin-padding-xs);
     color: var(--vaadin-text-color);
