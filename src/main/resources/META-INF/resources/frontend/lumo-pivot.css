@@ -297,7 +297,7 @@
 /* Styles for Aura */
 
 .aura .pvtUi button {
-    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    padding: var(--vaadin-padding-block-container, var(--vaadin-padding-xs));
     font-family: var(--aura-font-family, inherit);
     font-size: var(--aura-base-font-size, inherit);
     line-height: var(--aura-base-line-height, inherit);
@@ -319,11 +319,12 @@
 }
 
 .aura .pvtUi button:hover {
-    background: var(--aura-background);
+    background: var(--vaadin-background-container);
+
 }
 
 .aura .pvtAxisContainer li.ui-sortable-handle>span.pvtAttr {
-    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    padding: var(--vaadin-padding-block-container, var(--vaadin-padding-xs));
     font-family: var(--aura-font-family, inherit);
     font-size: var(--aura-base-font-size, inherit);
     line-height: var(--aura-base-line-height, inherit);
@@ -342,17 +343,17 @@
 }
 
 .aura .pvtAxisContainer li.ui-sortable-handle>span.pvtAttr:hover {
-    background: var(--aura-background);
+    background: var(--vaadin-background-container);
 }
 
 .aura .pvtUi .pvtAxisContainer {
-    background: var(--aura-background);
+    background: var(--aura-surface-color);
     border-radius: var(--vaadin-radius-m);
     border: 1px solid var(--vaadin-border-color-secondary);
 }
 
 .aura .pvtUi .pvtVals {
-    background: var(--aura-background);
+    background: var(--aura-surface-color);
     border-radius: var(--vaadin-radius-m);
     border: 1px solid var(--vaadin-border-color-secondary);
     text-align: left;
@@ -393,7 +394,7 @@
 }
 
 .aura .pvtUi table.pvtTable thead tr th {
-    background-color: var(--aura-background);
+    background-color: var(--vaadin-background-container);
     border: 1px solid var(--vaadin-border-color-secondary);
     font-size: var(--aura-base-font-size);
     font-weight: var(--aura-font-weight-medium);
@@ -401,7 +402,7 @@
 }
 
 .aura .pvtUi table.pvtTable tbody tr th {
-    background-color: var(--aura-background);
+    background-color: var(--vaadin-background-container);
     border: 1px solid var(--vaadin-border-color-secondary);
     font-size: var(--aura-base-font-size);
     font-weight: var(--aura-font-weight-medium);
@@ -412,13 +413,13 @@
     color: var(--vaadin-text-color);
     padding: var(--vaadin-padding-xs);
     font-size: var(--aura-base-font-size);
-    background-color: var(--vaadin-background-color);
+    background-color: var(--vaadin-crud-background);
     border: 1px solid var(--vaadin-border-color-secondary);
 }
 
 .aura .pvtUi select {
     border-radius: var(--vaadin-radius-m);
-    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    padding: var(--vaadin-padding-xs, var(--vaadin-padding-container));
     background: var(--vaadin-input-field-background, var(--vaadin-background-color));
     color: var(--vaadin-input-field-value-color, var(--vaadin-text-color));
     font-size: var(--vaadin-input-field-value-font-size, inherit);
@@ -429,7 +430,7 @@
 
 .aura .pvtSearch {
     border-radius: var(--vaadin-radius-m);
-    padding: var(--vaadin-button-padding, var(--vaadin-padding-container));
+    padding: var(--vaadin-padding-xs, var(--vaadin-padding-container));
     background: var(--vaadin-input-field-background, var(--vaadin-background-color));
     color: var(--vaadin-input-field-value-color, var(--vaadin-text-color));
     font-size: var(--vaadin-input-field-value-font-size, inherit);
@@ -474,7 +475,7 @@
     position: relative;
     border: 1px solid var(--vaadin-border-color-secondary);
     border-radius: var(--vaadin-radius-s);
-    background-color: var(--aura-background);
+    background-color: var(--vaadin-background-container);
     transition: transform 0.2s cubic-bezier(0.12, 0.32, 0.54, 2), background-color 0.15s;
     line-height: var(--aura-line-height-m);
     cursor: var(--vaadin-clickable-cursor);
@@ -482,15 +483,15 @@
 }
 
 .aura input.pvtFilter:checked {
-    background-color: var(--aura-accent-color);
+    background-color: var(--aura-blue);
 }
 
 .aura input.pvtFilter::before {
     pointer-events: none;
     display: block;
     content: '';
-    height: calc(var(--vaadin-icon-size, 1lh) - 3px);
-    width: calc(var(--vaadin-icon-size, 1lh) - 3px);
+    height: 16px;
+    width: 16px;
     line-height: var(--aura-line-height-m);
     contain: content;
     font-size: var(--aura-base-font-size);
@@ -499,6 +500,8 @@
 .aura input.pvtFilter:checked::before {
     background-image: var(--_vaadin-icon-checkmark);
     color: var(--vaadin-background-color);
+    margin-top: -4px;
+    margin-left: -2px;
     contain: content;
     filter: invert(1);
 }
@@ -519,7 +522,8 @@
 }
 
 .aura .pvtFilterBox[popup] {
-    background: color-mix(in oklab, var(--aura-surface-solid) calc(100% * 0.9), transparent);
+    --aura-surface-level: 2;
+    background: color-mix(in oklab, var(--aura-surface-color) calc(100% * 0.9), transparent);
     border: var(--vaadin-dialog-border-width, var(--vaadin-overlay-border-width, 1px)) solid var(--vaadin-dialog-border-color, var(--vaadin-overlay-border-color, var(--vaadin-border-color-secondary)));
     border-radius: var(--vaadin-dialog-border-radius, var(--vaadin-radius-l));
     box-shadow: var(--aura-overlay-shadow);
@@ -539,7 +543,7 @@
 }
 
 .aura .pvtRendererArea>textarea {
-    background: var(--aura-background);
+    background: var(--aura-surface-color);
     border-radius: var(--vaadin-radius-m);
     color: var(--vaadin-text-color);
 }
@@ -601,7 +605,8 @@
 .aura .pvtUi table.c3-tooltip td {
     font-size: calc(var(--aura-base-font-size) * 0.75);
     padding: var(--vaadin-padding-xs);
-    background-color: var(--aura-background);
+    --aura-surface-level: 3;
+    background-color: var(--aura-surface-color);
     border-left: 1px dotted var(--vaadin-border-color-secondary);
 }
 
@@ -610,7 +615,8 @@
 }
 
 .aura .pvtUi table.c3-tooltip th {
-    background-color: var(--aura-background);
+    --aura-surface-level: 3;
+    background-color: var(--aura-surface-color);
     font-size: calc(var(--aura-base-font-size) * 0.85);
     padding: var(--vaadin-padding-xs);
     color: var(--vaadin-text-color);

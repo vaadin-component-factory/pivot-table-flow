@@ -6,13 +6,13 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>pivottable-flow</artifactId>
-    <version>3.0.1</version>
+    <version>3.1.0</version>
     <name>PivotTable for Vaadin</name>
     <description>Flow integration of pivottable.js</description>
     <packaging>jar</packaging>
 
     <properties>
-        <vaadin.version>25.0.0-beta4</vaadin.version>
+        <vaadin.version>25.1.0</vaadin.version>
 
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -98,6 +98,11 @@
             <artifactId>vaadin-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-dev</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
@@ -110,7 +115,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>6.1.0</version>
+            <version>6.3.3</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
